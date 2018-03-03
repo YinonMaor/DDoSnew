@@ -2,27 +2,36 @@ DDoS Thesis:
 1. [Introduction](#introduction)  
 2. [Dependencies:](#dependencies)  
 3. [Running The Client Requests:](#running-the-client-requests)
-2. [Troubleshooting:](#troubleshooting)
 
 ## Introduction
 The client module defines a very effective attacker end-point, which pushes huge amount of requests for the server.
 
-## Dependencies:
-Node version ^8.7.0  
-Python version 2.7.0
+## Dependencies:  
+Linux environment 
+Node version ^8.7.0
+Python version 3.5
 
 ## Running The Client Requests:
--------------------------------------------------------- Maor here you should insert how to run the python file. (including flags etc.)
-## Troubleshooting:
-In case that you've got the following error:
+You can run the client GUI with the following commands:
+
 ```
-events.js:
-      throw er; // Unhandled 'error' event
-      ^
-Error: listen EADDRINUSE
+      $ python3 DDoS_GUI.py
 ```
-It means that you have another node process which is already running the same file or the PORT (either the default or the chosen port) is in use. If you still want to the server, be sure that no node process is running a important task, and try running:
+
+you also can be used for flag and arg applications like so:
+
 ```
-sudo killall node
+      $ node request -t <ip> -p <port> -f <path>
+      
+      Flags:
+        -t            define argument of IP destenation.
+        -p            define argument of Port destenation.
+        -f            define argument of path folder 
+
+      Args:
+        <ip>          IP address for attack.
+        <port>        Port destenation for attack.
+        <path>        path of folder to download files (default dev/null/)
+
 ```
-It should ask for a password and close any node process. Now you would be able to run the server.
+
