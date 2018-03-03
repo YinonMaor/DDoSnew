@@ -1,0 +1,13 @@
+--README FILE--
+
+DDoS Attacker  V 1.0 , python3 , Linux
+
+created by Yinon Choen and Maor Shabtay
+
+how to use:
+-Enter ip destanation.(0.0.0.0-255.255.255.255)
+-Enter Port (1-65535)
+-Choose Folder that Object download in your computer (defualt: \dev\null)
+-Click on attack from list
+-Click on START to start your attack
+-Click on STOP to stop attack
