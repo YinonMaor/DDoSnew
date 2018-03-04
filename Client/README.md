@@ -8,9 +8,9 @@ DDoS Thesis:
 The client module defines a very effective attacker end-point, which pushes huge amount of requests for the server.
 
 ## Dependencies:  
-Linux environment
-Node version ^8.7.0
-Python version 3.5
+Linux OS  
+Node version ^8.7.0  
+Python version ^3.5.0
 
 ## Running The Client Requests:
 You can run the client GUI with the following commands:
@@ -25,14 +25,14 @@ You might also use the following flags:
       $ node request -t <ip> -p <port> -f <path> -ht <requested file>
 
       Flags:
-        -t                    define argument of IP destenation.
-        -p                    define argument of Port destenation.
+        -t                    define argument of IP destination.
+        -p                    define argument of Port destination.
         -f                    define argument of path folder.
         -ht                   define argument of requested file
 
       Args:
         <ip>                  IP address for attack.
-        <port>                Port destenation for attack.
+        <port>                Port destination for attack.
         <path>                path of folder to download files (default dev/null/)
         <requested file>      path to requested file on the server.
 ```
