@@ -9,7 +9,7 @@ let fs = require('fs');
 let PORT = 80;
 let ip = "127.0.0.1";
 let path = "/";
-let dir = "/home";
+let dir = "./";
 
 process.argv.forEach(function (val, index, array) {
     if (val === '-t') {
@@ -26,8 +26,6 @@ process.argv.forEach(function (val, index, array) {
     }
 });
 
-const amount = 1;
-
 let options = {
     hostname: ip,
     port: PORT,
@@ -36,11 +34,10 @@ let options = {
 };
 
 let count = 0;
-for (let i = 0; i < amount; i++) {
+while(true) {
     let req = http.request(options, function (res) {
         let responseBody = "";
         res.on("data", function (chunk) {
-            //console.log(`--chunk-- ${chunk.length}`);
             responseBody += chunk;
         });
         res.on("end", function () {
