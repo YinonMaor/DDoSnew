@@ -10,9 +10,14 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
-const PORT = 4400;
+let PORT = 4400;
 let address = "127.0.0.1";
 
+process.argv.forEach(function (val, index, array) {
+    if (val === '--port' && array[index + 1]) {
+        PORT = parseInt(array[index + 1]) || PORT;
+    }
+});
 
 /**
  * Creating the server and defining the specific service for various requests.
@@ -63,5 +68,3 @@ require('dns').lookup(require('os').hostname(), function (err, add, fam) {
     server.listen(PORT, address);
     console.log(`Server is running on ip ${address}, port ${PORT}.`);
 });
-
-
