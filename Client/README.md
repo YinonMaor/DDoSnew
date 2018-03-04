@@ -8,7 +8,7 @@ DDoS Thesis:
 The client module defines a very effective attacker end-point, which pushes huge amount of requests for the server.
 
 ## Dependencies:  
-Linux environment 
+Linux environment
 Node version ^8.7.0
 Python version 3.5
 
@@ -19,11 +19,11 @@ You can run the client GUI with the following commands:
       $ python3 DDoS_GUI.py
 ```
 
-you also can be used for flag and arg applications like so:
+You might also use the following flags:
 
 ```
       $ node request -t <ip> -p <port> -f <path> -ht <requested file>
-      
+
       Flags:
         -t                    define argument of IP destenation.
         -p                    define argument of Port destenation.

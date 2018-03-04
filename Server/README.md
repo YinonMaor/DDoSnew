@@ -15,9 +15,17 @@ You can run the server with the following commands:
 ```
 node server
 ```
-In order to determine on which port should the server listen, insert a flag `--port`. Example:
+
+You might also use the following flags:
+
 ```
-node server --port 4500
+      $ node server --port <port>
+
+      Flags:
+        --port           define argument of PORT listener.
+
+      Args:
+        <port>           Port value for server's listener.
 ```
 ## Troubleshooting:
 In case that you've got the following error:
