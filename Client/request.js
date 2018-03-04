@@ -26,6 +26,8 @@ process.argv.forEach(function (val, index, array) {
     }
 });
 
+const amount = 10;
+
 let options = {
     hostname: ip,
     port: PORT,
@@ -34,7 +36,7 @@ let options = {
 };
 
 let count = 0;
-while(true) {
+for (let i = 0; i < amount; i++) {
     let req = http.request(options, function (res) {
         let responseBody = "";
         res.on("data", function (chunk) {
