@@ -49,4 +49,4 @@ It means that you have another node process which is already running the same fi
 ```
 sudo killall node
 ```
-It should ask for a password and close any node process. Now you would be able to run the server.
+It should ask for a password and close any node process. Now you would be able to run the requests.
