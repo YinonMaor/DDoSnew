@@ -1,0 +1,13 @@
+{
+  "name": "DDoSMitigation",
+  "description": "Thesis about DoS and DDoS mitigation",
+  "dependencies": {
+    "lodash": "4.17.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YinonMaor/DDoSMitigation"
+  },
+  "readmeFilename": "README.md",
+  "author": "Yinon Cohen, Maor Shabtay"
+}
