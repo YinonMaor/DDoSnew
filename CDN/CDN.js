@@ -12,6 +12,7 @@ const path = require('path');
 const _ = require('lodash');
 
 let PORT = 4400;
+let serverPort = 3300;
 let serverAddress = "127.0.0.1";
 let CDNaddress =    "127.0.0.1";
 
@@ -19,7 +20,9 @@ process.argv.forEach(function (val, index, array) {
     if (val === '--port' && array[index + 1]) {
         PORT = parseInt(array[index + 1]) || PORT;
     } else if (val === '--server' && array[index + 1]) {
-        serverAddress = parseInt(array[index + 1]) || PORT;
+        serverAddress = parseInt(array[index + 1]) || serverAddress;
+    } else if (val === '--serverPort' && array[index + 1]) {
+        serverPort = parseInt(array[index + 1]) || serverPort;
     }
 });
 let requests = [];
@@ -38,7 +41,7 @@ let server = http.createServer(function (req, res) {
 
     let options = {
         hostname: serverAddress,
-        port: PORT,
+        port: serverPort,
         path: requestPacket.dataRequested,
         method: "GET"
     };

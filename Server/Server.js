@@ -10,7 +10,7 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
-let PORT = 4400;
+let PORT = 3300;
 let address = "127.0.0.1";
 
 process.argv.forEach(function (val, index, array) {
