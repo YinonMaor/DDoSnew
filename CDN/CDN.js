@@ -43,7 +43,7 @@ let server = http.createServer(function (req, res) {
         method: "GET"
     };
 
-    let req = http.request(options, function (result) {
+    let request = http.request(options, function (result) {
         let responseBody = "";
         result.on("data", function (chunk) {
             responseBody += chunk;
@@ -54,7 +54,7 @@ let server = http.createServer(function (req, res) {
         });
     });
 
-    req.on("error", function (err) {
+    request.on("error", function (err) {
         console.log(`problem with request: ${err}`);
     });
 
