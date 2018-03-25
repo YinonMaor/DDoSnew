@@ -35,6 +35,9 @@ let requests = [];
 let server = http.createServer(function (req, res) {
     console.log(`${req.method} request for ${req.url}`);
     console.log(req.connection.remoteAddress);
+    if (_.includes(req.url, 'index.html')) {
+        req.url = 'index.html';
+    }
     let requestPacket = {
         dataRequested: req.url,
         applicationMethod: req.method,
@@ -54,21 +57,23 @@ let server = http.createServer(function (req, res) {
             responseBody += chunk;
         });
         result.on("end", function () {
-            fs.writeFileSync("index.html", responseBody, function (err) {
+            fs.writeFileSync(requestPacket.dataRequested, responseBody, function (err) {
                 if (err) {
                     throw err;
                 }
             });
-            fs.readFile("./index.html", function(err, newData) {
+            fs.readFile('./' + requestPacket.dataRequested, function(err, newData) {
                 if (err) {
                     throw err;
                 }
                 res.writeHead(200, {'Content-Type': 'text/html'});
                 res.end(newData);
             });
-            // fs.unlink(`./${requestPacket.dataRequested}`, function(err) {
-            //     throw err;
-            // });
+            fs.unlink(`./${requestPacket.dataRequested}`, function(err) {
+                if (err) {
+                    throw err;
+                }
+            });
         });
 
     });
