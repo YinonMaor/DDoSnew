@@ -26,7 +26,7 @@ let server = http.createServer(function (req, res) {
     console.log(`${req.method} request for ${req.url}`);
     console.log(req.connection.remoteAddress);
 
-    if (req.url === '/') {
+    if (req.url === '/' || req.url === '/index.html' || req.url === 'index.html') {
         fs.readFile('./index.html', function(err,data) {
             if (err) {
                 throw err;

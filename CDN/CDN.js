@@ -10,39 +10,41 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const _ = require('lodash');
+const util = require('util');
 
 let PORT = 4400;
 let serverPort = 3300;
 let serverAddress = "127.0.0.1";
 let CDNaddress =    "127.0.0.1";
-
+let x = [];
 process.argv.forEach(function (val, index, array) {
+    x = array;
     if (val === '--port' && array[index + 1]) {
         PORT = parseInt(array[index + 1]) || PORT;
     } else if (val === '--server' && array[index + 1]) {
-        serverAddress = parseInt(array[index + 1]) || serverAddress;
+        serverAddress = array[index + 1] || serverAddress;
     } else if (val === '--serverPort' && array[index + 1]) {
         serverPort = parseInt(array[index + 1]) || serverPort;
     }
 });
+
 let requests = [];
 /**
  * Creating the server and defining the specific service for various requests.
  */
 let server = http.createServer(function (req, res) {
+    console.log(`${req.method} request for ${req.url}`);
+    console.log(req.connection.remoteAddress);
     let requestPacket = {
         dataRequested: req.url,
         applicationMethod: req.method,
         requestedIp: req.connection.remoteAddress
     };
-
-    console.log(`${requestPacket.applicationMethod} request for ${requestPacket.dataRequested}`);
-    console.log(requestPacket.requestedIp);
-
+    console.log(`this is the req.url:${requestPacket.dataRequested}:`)
     let options = {
         hostname: serverAddress,
         port: serverPort,
-        path: requestPacket.dataRequested,
+        path: '/',
         method: "GET"
     };
 
@@ -52,15 +54,29 @@ let server = http.createServer(function (req, res) {
             responseBody += chunk;
         });
         result.on("end", function () {
-            res.writeHead(200, {'Content-Type': result.headers['Content-Type']}); // lodash?
-            res.end(result);
+            fs.writeFileSync("index.html", responseBody, function (err) {
+                if (err) {
+                    throw err;
+                }
+            });
+            fs.readFile("./index.html", function(err, newData) {
+                if (err) {
+                    throw err;
+                }
+                res.writeHead(200, {'Content-Type': 'text/html'});
+                res.end(newData);
+            });
+            // fs.unlink(`./${requestPacket.dataRequested}`, function(err) {
+            //     throw err;
+            // });
         });
+
     });
 
     request.on("error", function (err) {
         console.log(`problem with request: ${err}`);
     });
-
+    request.end();
 });
 
 /**
