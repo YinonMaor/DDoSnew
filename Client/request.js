@@ -8,7 +8,7 @@ let fs = require('fs');
 
 let PORT = 80;
 let ip = "127.0.0.1";
-let path = "index.html";
+let path = "/";
 let dir = "./";
 
 process.argv.forEach(function (val, index, array) {
@@ -34,6 +34,10 @@ let options = {
     path: path,
     method: "GET"
 };
+
+if (path === '/' || path === '/index.html') {
+    path = 'index.html';
+}
 
 let count = 0;
 for (let i = 0; i < amount; i++) {
