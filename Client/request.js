@@ -28,16 +28,16 @@ process.argv.forEach(function (val, index, array) {
 
 const amount = 1; // expand for real DoS
 
+if (!path.startsWith('/')) {
+    path = '/'.concat(path);
+}
+
 let options = {
     hostname: ip,
     port: PORT,
     path: path,
     method: "GET"
 };
-
-if (path === '/' || path === '/index.html') {
-    path = 'index.html';
-}
 
 let count = 0;
 for (let i = 0; i < amount; i++) {
