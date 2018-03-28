@@ -35,11 +35,15 @@ let requests = [];
 let server = http.createServer(function (req, res) {
     console.log(`${req.method} request for ${req.url}`);
     console.log(req.connection.remoteAddress);
-    if (_.includes(req.url, 'index.html')) {
-        req.url = 'index.html';
+    let fileName = req.url;
+    if (fileName.startsWith('/')) {
+        fileName = fileName.substr(1);
+    }
+    if (fileName.startsWith('./')) {
+        fileName = fileName.substr(2);
     }
     let requestPacket = {
-        dataRequested: req.url,
+        dataRequested: fileName,
         applicationMethod: req.method,
         requestedIp: req.connection.remoteAddress
     };
@@ -57,19 +61,19 @@ let server = http.createServer(function (req, res) {
             responseBody += chunk;
         });
         result.on("end", function () {
-            fs.writeFileSync(requestPacket.dataRequested, responseBody, function (err) {
+            fs.writeFileSync('./' + fileName, responseBody, function (err) {
                 if (err) {
                     throw err;
                 }
             });
-            fs.readFileSync('./' + requestPacket.dataRequested, function(err, newData) {
+            fs.readFile('./' + fileName, function(err, newData) {
                 if (err) {
                     throw err;
                 }
                 res.writeHead(200, {'Content-Type': 'text/html'}); // know when you're writing with text/html or image or plain
                 res.end(newData);
             });
-            fs.unlink(`./${requestPacket.dataRequested}`, function(err) {
+            fs.unlink(`${requestPacket.dataRequested}`, function(err) {
                 if (err) {
                     throw err;
                 }

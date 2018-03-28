@@ -8,7 +8,7 @@ let fs = require('fs');
 
 let PORT = 80;
 let ip = "127.0.0.1";
-let path = "/";
+let path = "index.html";
 let dir = "./";
 
 process.argv.forEach(function (val, index, array) {
@@ -43,7 +43,7 @@ for (let i = 0; i < amount; i++) {
             responseBody += chunk;
         });
         res.on("end", function () {
-            fs.writeFile(i + ".html", responseBody, function (err) {
+            fs.writeFile(path, responseBody, function (err) {
                 if (err) {
                     throw err;
                 } else {
