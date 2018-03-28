@@ -8,9 +8,7 @@
  */
 const http = require('http');
 const fs = require('fs');
-const path = require('path');
 const _ = require('lodash');
-const util = require('util');
 
 let PORT = 4400;
 let serverPort = 3300;
@@ -28,7 +26,6 @@ process.argv.forEach(function (val, index, array) {
     }
 });
 
-let requests = [];
 /**
  * Creating the server and defining the specific service for various requests.
  */
@@ -36,22 +33,15 @@ let server = http.createServer(function (req, res) {
     console.log(`${req.method} request for ${req.url}`);
     console.log(req.connection.remoteAddress);
     let fileName = req.url;
-    if (fileName.startsWith('/')) {
-        fileName = fileName.substr(1);
+    if (fileName === '/' || fileName === '/index.html' || fileName === 'index.html') {
+        fileName = '/index.html';
+    } else {
+        fileName = cleanFileName(fileName);
     }
-    if (fileName.startsWith('./')) {
-        fileName = fileName.substr(2);
-    }
-    let requestPacket = {
-        dataRequested: fileName,
-        applicationMethod: req.method,
-        requestedIp: req.connection.remoteAddress
-    };
-    console.log(`this is the req.url:${requestPacket.dataRequested}:`)
     let options = {
         hostname: serverAddress,
         port: serverPort,
-        path: '/',
+        path: fileName,
         method: "GET"
     };
 
@@ -73,7 +63,8 @@ let server = http.createServer(function (req, res) {
                 res.writeHead(200, {'Content-Type': 'text/html'}); // know when you're writing with text/html or image or plain
                 res.end(newData);
             });
-            fs.unlink(`${requestPacket.dataRequested}`, function(err) {
+            fileName = cleanFileName(fileName);
+            fs.unlink(fileName, function(err) {
                 if (err) {
                     throw err;
                 }
@@ -96,3 +87,14 @@ require('dns').lookup(require('os').hostname(), function (err, add, fam) {
     server.listen(PORT, CDNaddress);
     console.log(`CDN Server is running on ip ${CDNaddress}, port ${PORT}.`);
 });
+
+
+function cleanFileName(fileName) {
+    if (fileName.startsWith('/')) {
+        fileName = fileName.substr(1);
+    }
+    if (fileName.startsWith('./')) {
+        fileName = fileName.substr(2);
+    }
+    return fileName
+}
