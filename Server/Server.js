@@ -27,7 +27,7 @@ let server = http.createServer(function (req, res) {
     console.log(req.connection.remoteAddress);
 
     if (req.url === '/' || req.url === '/index.html' || req.url === 'index.html') {
-        fs.readFile('./index.html', function(err,data) {
+        fs.readFile('./index.html', function(err, data) {
             if (err) {
                 throw err;
             }
@@ -55,8 +55,13 @@ let server = http.createServer(function (req, res) {
     }
 
     else {
-        res.writeHead(404, {"Content-Type": "text/plain"});
-        res.end("404 File Not Found");
+        fs.readFile('./notFound', function(err, data) {
+            if (err) {
+                throw err;
+            }
+            res.writeHead(200, {'Content-Type': 'text/plain'});
+            res.end(data);
+        });
     }
 });
 
