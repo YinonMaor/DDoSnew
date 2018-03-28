@@ -26,7 +26,7 @@ process.argv.forEach(function (val, index, array) {
     }
 });
 
-const amount = 10; // expand for real DoS
+const amount = 1; // expand for real DoS
 
 let options = {
     hostname: ip,
