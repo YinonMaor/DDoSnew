@@ -39,6 +39,10 @@ let options = {
     method: "GET"
 };
 
+if (path === '/') {
+    path = '/index.html';
+}
+
 let count = 0;
 for (let i = 0; i < amount; i++) {
     let req = http.request(options, function (res) {
