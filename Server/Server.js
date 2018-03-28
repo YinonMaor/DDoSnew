@@ -58,13 +58,19 @@ let server = http.createServer(function (req, res) {
             imgStream.pipe(res);
         }
     } else {
+        fileName = cleanFileName(fileName);
         fs.writeFileSync(fileName, 'File Not Found. Please check your request.\n', function (err) {
             if (err) {
                 throw err;
             }
         });
-        res.writeHead(200, {'Content-Type': 'text/plain'});
-        res.end(data);
+        fs.readFile(`./${fileName}`, function (err, data) {
+            if (err) {
+                throw err;
+            }
+            res.writeHead(200, {'Content-Type': 'text/plain'});
+            res.end(data);
+        });
     }
 });
 
@@ -84,4 +90,14 @@ function isFileExistsInDirectory(dirPath, fileName) {
         }
     });
     return _.includes(files, fileName);
+}
+
+function cleanFileName(fileName) {
+    if (fileName.startsWith('/')) {
+        fileName = fileName.substr(1);
+    }
+    if (fileName.startsWith('./')) {
+        fileName = fileName.substr(2);
+    }
+    return fileName
 }
