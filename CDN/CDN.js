@@ -62,11 +62,11 @@ let server = http.createServer(function (req, res) {
                     throw err;
                 }
             });
-            fs.readFile('./' + requestPacket.dataRequested, function(err, newData) {
+            fs.readFileSync('./' + requestPacket.dataRequested, function(err, newData) {
                 if (err) {
                     throw err;
                 }
-                res.writeHead(200, {'Content-Type': 'text/html'});
+                res.writeHead(200, {'Content-Type': 'text/html'}); // know when you're writing with text/html or image or plain
                 res.end(newData);
             });
             fs.unlink(`./${requestPacket.dataRequested}`, function(err) {
