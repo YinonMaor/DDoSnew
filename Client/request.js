@@ -40,7 +40,7 @@ let options = {
 };
 
 if (path === '/') {
-    path = '/index.html';
+    path = 'index.html';
 }
 
 let count = 0;
