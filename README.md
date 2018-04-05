@@ -37,7 +37,7 @@ Our main goal is to develop an automatic open-source system that would identify 
     ```
     npm install
     ```
-    or:
+    Or, if you have yarn installed:
     ```
     yarn
     ```
