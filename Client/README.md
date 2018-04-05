@@ -8,7 +8,7 @@ DDoS Thesis:
 The client module defines a very effective attacker end-point, which pushes huge amount of requests for the server.
 
 ## Dependencies:  
-Linux OS  
+MacOS / Linux  
 Node version ^8.7.0  
 Python version ^3.5.0
 

@@ -2,7 +2,9 @@ DDoS Thesis:
 1. [Introduction](#introduction)  
 2. [Our Project:](#our-project)  
 3. [Our Goal:](#our-goal)  
-4. [Practical Overview:](#practical-overview)
+4. [Dependencies:](#dependencies)  
+5. [Installation:](#installation)
+6. [Practical Overview:](#practical-overview)
 
 ## Introduction
 DoS attacks are attempts to exhaust server-side assets and designed to prevent client-to-server communication (denial of service). Simply, we can say that stealth server sabotage wires or even the server is denial of service, but in the context of data security we discuss about remote attacks and not physical sabotaging.  
@@ -16,6 +18,30 @@ Our project deals with understanding and examining DoS and DDoS attacks, and wha
 ## Our Goal:
 Our main goal is to develop an automatic open-source system that would identify and analyze a traffic flood attack, defend the server from it, and in need - will block any Internet Protocol (IP) or sub-net which the flood comes from. Our system should run on a Content delivery network (CDN) instead of on the server in order to save the server’s performances providing service
 
+## Dependencies:
+* MacOS / Linux
+* Node.js ^8.7.0
+* Python ^2.7.0
+* Git
+
+## Installation:
+1. Clone the repository:  
+    ```
+    git clone https://github.com/YinonMaor/DDoSMitigation.git
+    ```
+2. Enter the project's directory:
+    ```
+    cd DDoSMitigation
+    ```
+3. Install dependent packages:
+    ```
+    npm install
+    ```
+    or:
+    ```
+    yarn
+    ```
+4. Run the module as describes in each module's directory.
 
 ## Practical Overview:
 In this repo, you might find about our modules that demonstrating our various parts of the research:  
