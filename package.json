@@ -8,6 +8,12 @@
     "type": "git",
     "url": "https://github.com/YinonMaor/DDoSMitigation"
   },
+  "scripts": {
+    "lint": "sh lintRunner.sh"
+  },
   "readmeFilename": "README.md",
+  "devDependencies": {
+    "eslint": "^4.19.1"
+  },
   "author": "Yinon Cohen, Maor Shabtay"
 }
