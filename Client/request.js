@@ -1,15 +1,15 @@
 /**
  * Created by yinonc on 18/12/2017.
  */
-'use strict'
+'use strict';
 
 let http = require('http');
 let fs = require('fs');
 
 let PORT = 80;
-let ip = "127.0.0.1";
-let path = "/";
-let dir = "./";
+let ip   = '127.0.0.1';
+let path = '/';
+let dir  = './';
 
 process.argv.forEach(function (val, index, array) {
     if (val === '-t') {
@@ -36,31 +36,29 @@ let options = {
     hostname: ip,
     port: PORT,
     path: path,
-    method: "GET"
+    method: 'GET'
 };
 
 if (path === '/') {
     path = 'index.html';
 }
 
-let count = 0;
+//let count = 0;
 for (let i = 0; i < amount; i++) {
     let req = http.request(options, function (res) {
-        let responseBody = "";
-        res.on("data", function (chunk) {
+        let responseBody = '';
+        res.on('data', function (chunk) {
             responseBody += chunk;
         });
-        res.on("end", function () {
+        res.on('end', function () {
             fs.writeFile(path, responseBody, function (err) {
                 if (err) {
                     throw err;
-                } else {
-                    count++;
                 }
             });
         });
     });
-    req.on("error", function (err) {
+    req.on('error', function (err) {
         console.log(`problem with request: ${err}`);
     });
     req.end();
