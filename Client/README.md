@@ -16,25 +16,30 @@ Python version ^3.5.0
 You can run the client GUI with the following commands:
 
 ```
-      $ python3 DDoS_GUI.py
+  $ python3 DDoS_GUI.py
 ```
 
+In case you want to use the command line:  
+```
+    node request -t <server_ip> -p <server_port>
+```
+The `-t` and `-p` are mandatory fields in order to run the request for the server.
 You might also use the following flags:
 
 ```
-      $ node request -t <ip> -p <port> -f <path> -ht <requested file>
+  $ node request -t <ip> -p <port> -f <path> -ht <requested file>
 
-      Flags:
-        -t                    define argument of IP destination.
-        -p                    define argument of Port destination.
-        -f                    define argument of path folder.
-        -ht                   define argument of requested file
+  Flags:
+    -t                    define argument of IP destination.
+    -p                    define argument of Port destination.
+    -f                    define argument of path folder.
+    -ht                   define argument of requested file
 
-      Args:
-        <ip>                  IP address for attack.
-        <port>                Port destination for attack.
-        <path>                path of folder to download files (default dev/null/)
-        <requested file>      path to requested file on the server.
+  Args:
+    <ip>                  IP address for attack.
+    <port>                Port destination for attack.
+    <path>                path of folder to download files (default dev/null/)
+    <requested file>      path to requested file on the server.
 ```
 
 ## Troubleshooting:
