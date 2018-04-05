@@ -6,10 +6,12 @@
 /**
  * Dependent modules
  */
-const http = require('http');
-const fs   = require('fs');
-const path = require('path');
-const _    = require('lodash');
+const http    = require('http');
+const fs      = require('fs');
+const path    = require('path');
+const _       = require('lodash');
+const cleaner = require('../util/cleaner');
+
 
 let PORT    = 3300;
 let address = '127.0.0.1';
@@ -58,7 +60,7 @@ let server = http.createServer(function (req, res) {
             imgStream.pipe(res);
         }
     } else {
-        fileName = cleanFileName(fileName);
+        fileName = cleaner.cleanFileName(fileName);
         fs.writeFileSync(fileName, 'File Not Found. Please check your request.\n', function (err) {
             if (err) {
                 throw err;
@@ -90,14 +92,4 @@ function isFileExistsInDirectory(dirPath, fileName) {
         }
     });
     return _.includes(files, fileName);
-}
-
-function cleanFileName(fileName) {
-    if (fileName.startsWith('/')) {
-        fileName = fileName.substr(1);
-    }
-    if (fileName.startsWith('./')) {
-        fileName = fileName.substr(2);
-    }
-    return fileName;
 }

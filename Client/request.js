@@ -5,11 +5,17 @@
 
 let http = require('http');
 let fs   = require('fs');
+let _    = require('lodash');
 
 let PORT = 80;
 let ip   = '127.0.0.1';
 let path = '/';
 let dir  = './';
+
+if (!_.includes(process.argv, '--t') || !_.includes(process.argv, '--p')) {
+    console.error('\x1b[31m', '--------ERROR!--------\nClient module missing arguments:\nServer IP and port are mandatory arguments.\nYou can find more information at README.md file.');
+    process.exit();
+}
 
 process.argv.forEach(function (val, index, array) {
     if (val === '-t') {

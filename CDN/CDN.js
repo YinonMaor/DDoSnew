@@ -6,14 +6,21 @@
 /**
  * Dependent modules
  */
-const http = require('http');
-const fs   = require('fs');
-const _    = require('lodash');// eslint-disable-line no-unused-vars
+const http    = require('http');
+const fs      = require('fs');
+const _       = require('lodash');
+const cleaner = require('../util/cleaner');
 
 let PORT          = 4400;
 let serverPort    = 3300;
 let serverAddress = '127.0.0.1';
 let CDNaddress    = '127.0.0.1';
+
+if (!_.includes(process.argv, '--serverPort') || !_.includes(process.argv, '--server')) {
+    console.error('\x1b[31m', '--------ERROR!--------\nCDN server failed to load:\nServer IP and port are mandatory arguments.\nYou can find more information at README.md file.');
+    process.exit();
+}
+
 process.argv.forEach(function (val, index, array) {
     if (val === '--port' && array[index + 1]) {
         PORT = parseInt(array[index + 1]) || PORT;
@@ -34,7 +41,7 @@ let server = http.createServer(function (req, res) {
     if (fileName === '/' || fileName === '/index.html' || fileName === 'index.html') {
         fileName = '/index.html';
     } else {
-        fileName = cleanFileName(fileName);
+        fileName = cleaner.cleanFileName(fileName);
     }
     let options = {
         hostname: serverAddress,
@@ -61,7 +68,7 @@ let server = http.createServer(function (req, res) {
                 res.writeHead(200, {'Content-Type': 'text/html'}); // know when you're writing with text/html or image or plain
                 res.end(newData);
             });
-            fileName = cleanFileName(fileName);
+            fileName = cleaner.cleanFileName(fileName);
             fs.unlink(fileName, function(err) {
                 if (err) {
                     throw err;
@@ -85,14 +92,3 @@ require('dns').lookup(require('os').hostname(), function (err, add) {
     server.listen(PORT, CDNaddress);
     console.log(`CDN Server is running on ip ${CDNaddress}, port ${PORT}.`);
 });
-
-
-function cleanFileName(fileName) {
-    if (fileName.startsWith('/')) {
-        fileName = fileName.substr(1);
-    }
-    if (fileName.startsWith('./')) {
-        fileName = fileName.substr(2);
-    }
-    return fileName;
-}
