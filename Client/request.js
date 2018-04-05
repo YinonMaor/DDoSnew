@@ -3,9 +3,11 @@
  */
 'use strict';
 
-let http = require('http');
-let fs   = require('fs');
-let _    = require('lodash');
+let http        = require('http');
+let fs          = require('fs');
+let _           = require('lodash');
+const validator = require('../util/validator');
+
 
 let PORT = 80;
 let ip   = '127.0.0.1';

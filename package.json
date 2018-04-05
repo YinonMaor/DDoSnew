@@ -16,6 +16,7 @@
   },
   "scripts": {
     "test": "jasmine",
-    "lint": "sh util/lintRunner.sh"
+    "lint": "sh util/lintRunner.sh",
+    "fix": "sh util/lintFixer.sh"
   }
 }
