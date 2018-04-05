@@ -7,12 +7,12 @@
  * Dependent modules
  */
 const http = require('http');
-const fs = require('fs');
+const fs   = require('fs');
 const path = require('path');
-const _ = require('lodash');
+const _    = require('lodash');
 
-let PORT = 3300;
-let address = "127.0.0.1";
+let PORT    = 3300;
+let address = '127.0.0.1';
 
 process.argv.forEach(function (val, index, array) {
     if (val === '--port' && array[index + 1]) {
@@ -77,7 +77,7 @@ let server = http.createServer(function (req, res) {
 /**
  * Defining the server's listener
  */
-require('dns').lookup(require('os').hostname(), function (err, add, fam) {
+require('dns').lookup(require('os').hostname(), function (err, add) {
     address = add;
     server.listen(PORT, address);
     console.log(`Server is running on ip ${address}, port ${PORT}.`);
@@ -99,5 +99,5 @@ function cleanFileName(fileName) {
     if (fileName.startsWith('./')) {
         fileName = fileName.substr(2);
     }
-    return fileName
+    return fileName;
 }

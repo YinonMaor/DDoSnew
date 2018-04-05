@@ -7,16 +7,14 @@
  * Dependent modules
  */
 const http = require('http');
-const fs = require('fs');
-const _ = require('lodash');
+const fs   = require('fs');
+const _    = require('lodash');// eslint-disable-line no-unused-vars
 
-let PORT = 4400;
-let serverPort = 3300;
-let serverAddress = "127.0.0.1";
-let CDNaddress =    "127.0.0.1";
-let x = [];
+let PORT          = 4400;
+let serverPort    = 3300;
+let serverAddress = '127.0.0.1';
+let CDNaddress    = '127.0.0.1';
 process.argv.forEach(function (val, index, array) {
-    x = array;
     if (val === '--port' && array[index + 1]) {
         PORT = parseInt(array[index + 1]) || PORT;
     } else if (val === '--server' && array[index + 1]) {
@@ -42,15 +40,15 @@ let server = http.createServer(function (req, res) {
         hostname: serverAddress,
         port: serverPort,
         path: fileName,
-        method: "GET"
+        method: 'GET'
     };
 
     let request = http.request(options, function (result) {
-        let responseBody = "";
-        result.on("data", function (chunk) {
+        let responseBody = '';
+        result.on('data', function (chunk) {
             responseBody += chunk;
         });
-        result.on("end", function () {
+        result.on('end', function () {
             fs.writeFileSync('./' + fileName, responseBody, function (err) {
                 if (err) {
                     throw err;
@@ -73,7 +71,7 @@ let server = http.createServer(function (req, res) {
 
     });
 
-    request.on("error", function (err) {
+    request.on('error', function (err) {
         console.log(`problem with request: ${err}`);
     });
     request.end();
@@ -82,7 +80,7 @@ let server = http.createServer(function (req, res) {
 /**
  * Defining the server's listener
  */
-require('dns').lookup(require('os').hostname(), function (err, add, fam) {
+require('dns').lookup(require('os').hostname(), function (err, add) {
     CDNaddress = add;
     server.listen(PORT, CDNaddress);
     console.log(`CDN Server is running on ip ${CDNaddress}, port ${PORT}.`);
@@ -96,5 +94,5 @@ function cleanFileName(fileName) {
     if (fileName.startsWith('./')) {
         fileName = fileName.substr(2);
     }
-    return fileName
+    return fileName;
 }
