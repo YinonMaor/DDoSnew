@@ -18,16 +18,24 @@ if (!_.includes(process.argv, '--t') || !_.includes(process.argv, '--p')) {
 }
 
 process.argv.forEach(function (val, index, array) {
-    if (val === '-t') {
+    if (val === '-t' && array[index + 1]) {
+        if (!validator.isValidIp(array[index + 1])) {
+            console.error('\x1b[31m', '--------ERROR!--------\nServer failed to load:\nInvalid given server\'s IP.');
+            process.exit();
+        }
         ip = array[index + 1] || ip;
     }
-    else if (val === '-p') {
+    else if (val === '-p' && array[index + 1]) {
+        if (!validator.isValidPort(array[index + 1])) {
+            console.error('\x1b[31m', '--------ERROR!--------\nCDN server failed to load:\nInvalid given server\'s port.');
+            process.exit();
+        }
         PORT = parseInt(array[index + 1]) || PORT;
     }
-    else if (val === '-ht') {
+    else if (val === '-ht' && array[index + 1]) {
         path = array[index + 1] || path;
     }
-    else if (val === '-f') {
+    else if (val === '-f' && array[index + 1]) {
         dir = array[index + 1] || dir;
     }
 });

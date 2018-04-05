@@ -6,11 +6,12 @@
 /**
  * Dependent modules
  */
-const http    = require('http');
-const fs      = require('fs');
-const path    = require('path');
-const _       = require('lodash');
-const cleaner = require('../util/cleaner');
+const http      = require('http');
+const fs        = require('fs');
+const path      = require('path');
+const _         = require('lodash');
+const validator = require('../util/validator');
+const cleaner   = require('../util/cleaner');
 
 
 let PORT    = 3300;
@@ -18,6 +19,10 @@ let address = '127.0.0.1';
 
 process.argv.forEach(function (val, index, array) {
     if (val === '--port' && array[index + 1]) {
+        if (!validator.isValidPort(array[index + 1])) {
+            console.error('\x1b[31m', '--------ERROR!--------\nServer failed to load:\nInvalid given port.');
+            process.exit();
+        }
         PORT = parseInt(array[index + 1]) || PORT;
     }
 });

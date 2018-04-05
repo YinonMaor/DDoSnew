@@ -6,15 +6,16 @@
 /**
  * Dependent modules
  */
-const http    = require('http');
-const fs      = require('fs');
-const _       = require('lodash');
-const cleaner = require('../util/cleaner');
+const http        = require('http');
+const fs          = require('fs');
+const _           = require('lodash');
+const cleaner     = require('../util/cleaner');
+const validator   = require('../util/validator');
 
 let PORT          = 4400;
 let serverPort    = 3300;
 let serverAddress = '127.0.0.1';
-let CDNaddress    = '127.0.0.1';
+let CDN_Address    = '127.0.0.1';
 
 if (!_.includes(process.argv, '--serverPort') || !_.includes(process.argv, '--server')) {
     console.error('\x1b[31m', '--------ERROR!--------\nCDN server failed to load:\nServer IP and port are mandatory arguments.\nYou can find more information at README.md file.');
@@ -23,10 +24,22 @@ if (!_.includes(process.argv, '--serverPort') || !_.includes(process.argv, '--se
 
 process.argv.forEach(function (val, index, array) {
     if (val === '--port' && array[index + 1]) {
+        if (!validator.isValidPort(array[index + 1])) {
+            console.error('\x1b[31m', '--------ERROR!--------\nCDN server failed to load:\nInvalid given port.');
+            process.exit();
+        }
         PORT = parseInt(array[index + 1]) || PORT;
     } else if (val === '--server' && array[index + 1]) {
+        if (!validator.isValidIp(array[index + 1])) {
+            console.error('\x1b[31m', '--------ERROR!--------\nServer failed to load:\nInvalid given server\'s IP.');
+            process.exit();
+        }
         serverAddress = array[index + 1] || serverAddress;
     } else if (val === '--serverPort' && array[index + 1]) {
+        if (!validator.isValidPort(array[index + 1])) {
+            console.error('\x1b[31m', '--------ERROR!--------\nCDN server failed to load:\nInvalid given server\'s port.');
+            process.exit();
+        }
         serverPort = parseInt(array[index + 1]) || serverPort;
     }
 });
@@ -88,7 +101,7 @@ let server = http.createServer(function (req, res) {
  * Defining the server's listener
  */
 require('dns').lookup(require('os').hostname(), function (err, add) {
-    CDNaddress = add;
-    server.listen(PORT, CDNaddress);
-    console.log(`CDN Server is running on ip ${CDNaddress}, port ${PORT}.`);
+    CDN_Address = add;
+    server.listen(PORT, CDN_Address);
+    console.log(`CDN Server is running on ip ${CDN_Address}, port ${PORT}.`);
 });
