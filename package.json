@@ -9,5 +9,11 @@
     "url": "https://github.com/YinonMaor/DDoSMitigation"
   },
   "readmeFilename": "README.md",
-  "author": "Yinon Cohen, Maor Shabtay"
+  "author": "Yinon Cohen, Maor Shabtay",
+  "devDependencies": {
+    "jasmine": "^3.1.0"
+  },
+  "scripts": {
+    "test": "jasmine"
+  }
 }
