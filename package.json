@@ -3,6 +3,7 @@
   "author": "Yinon Cohen, Maor Shabtay",
   "description": "Thesis about DoS and DDoS mitigation",
   "readmeFilename": "README.md",
+  "license": "UNLICENSED",
   "repository": {
     "type": "git",
     "url": "https://github.com/YinonMaor/DDoSMitigation"
