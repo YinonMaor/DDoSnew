@@ -17,11 +17,18 @@ const cleaner   = require('../util/cleaner');
 let PORT    = 3300;
 let address = '127.0.0.1';
 
+if (_.includes(process.argv, '--help')) {
+    console.log('Usage: node CDN [options]\n');
+    console.log('Options:');
+    console.log('  --port        Define CDN server\'s port argument (3300 by default)');
+    process.exit(0);
+}
+
 process.argv.forEach(function (val, index, array) {
     if (val === '--port' && array[index + 1]) {
         if (!validator.isValidPort(array[index + 1])) {
             console.error('\x1b[31m', '--------ERROR!--------\nServer failed to load:\nInvalid given port.');
-            process.exit();
+            process.exit(2);
         }
         PORT = parseInt(array[index + 1]) || PORT;
     }

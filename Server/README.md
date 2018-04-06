@@ -1,4 +1,4 @@
-DDoS Thesis:  
+Server Module:  
 1. [Introduction](#introduction)  
 2. [Dependencies:](#dependencies)  
 3. [Running The Server:](#running-the-server)

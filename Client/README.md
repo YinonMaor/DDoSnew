@@ -1,4 +1,4 @@
-DDoS Thesis:  
+Client Module:  
 1. [Introduction](#introduction)  
 2. [Dependencies:](#dependencies)  
 3. [Running The Client Requests:](#running-the-client-requests)

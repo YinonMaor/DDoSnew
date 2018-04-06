@@ -1,4 +1,4 @@
-DDoS Thesis:  
+CDN Module:  
 1. [Introduction](#introduction)  
 2. [Dependencies:](#dependencies)  
 3. [Running The CDN Server:](#running-the-cdn-server)

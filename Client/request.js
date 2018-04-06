@@ -14,23 +14,34 @@ let ip   = '127.0.0.1';
 let path = '/';
 let dir  = './';
 
+if (_.includes(process.argv, '--help')) {
+    console.log('Usage: node request [options]\n');
+    console.log('Options:');
+    console.log('\x1b[31m', 'M', '\x1b[0m' ,'- Mandatory');
+    console.log('  --t        ' , '\x1b[31m', 'M', '\x1b[0m', '      Define server\'s IP argument');
+    console.log('  --p        ' , '\x1b[31m', 'M', '\x1b[0m', '      Define server\'s port argument');
+    console.log('  --f                   Define path of saving files argument (\'./\' by default)');
+    console.log('  --ht                  Define requested path argument (\'/\' by default)');
+    process.exit(0);
+}
+
 if (!_.includes(process.argv, '--t') || !_.includes(process.argv, '--p')) {
     console.error('\x1b[31m', '--------ERROR!--------\nClient module missing arguments:\nServer IP and port are mandatory arguments.\nYou can find more information at README.md file.');
-    process.exit();
+    process.exit(1);
 }
 
 process.argv.forEach(function (val, index, array) {
     if (val === '-t' && array[index + 1]) {
         if (!validator.isValidIp(array[index + 1])) {
             console.error('\x1b[31m', '--------ERROR!--------\nServer failed to load:\nInvalid given server\'s IP.');
-            process.exit();
+            process.exit(2);
         }
         ip = array[index + 1] || ip;
     }
     else if (val === '-p' && array[index + 1]) {
         if (!validator.isValidPort(array[index + 1])) {
             console.error('\x1b[31m', '--------ERROR!--------\nCDN server failed to load:\nInvalid given server\'s port.');
-            process.exit();
+            process.exit(2);
         }
         PORT = parseInt(array[index + 1]) || PORT;
     }

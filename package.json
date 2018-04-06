@@ -15,7 +15,7 @@
     "jasmine": "^3.1.0"
   },
   "scripts": {
-    "test": "jasmine",
+    "test": "npm run lint && jasmine",
     "lint": "sh util/lintRunner.sh",
     "fix": "sh util/lintFixer.sh"
   }
