@@ -6,9 +6,9 @@ let global = {
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                use: ['babel-loader'],
-            },
-        ],
+                use: ['babel-loader']
+            }
+        ]
     },
     node: {
         fs: 'empty',
@@ -19,29 +19,29 @@ let global = {
 
 let server = _.assign({}, global, {
     entry: [
-        './Server/Server.js',
+        './Server/Server.js'
     ],
     output: {
         path: path.join(__dirname, 'dist'),
-        filename: 'server.js',
+        filename: 'server.js'
     }
 });
 let client = _.assign({}, global, {
     entry: [
-        './Client/request.js',
+        './Client/request.js'
     ],
     output: {
         path: path.join(__dirname, 'dist'),
-        filename: 'request.js',
+        filename: 'request.js'
     }
 });
 let cdn = _.assign({}, global, {
     entry: [
-        './CDN/CDN.js',
+        './CDN/CDN.js'
     ],
     output: {
         path: path.join(__dirname, 'dist'),
-        filename: 'cdn.js',
+        filename: 'cdn.js'
     }
 });
 module.exports = [
