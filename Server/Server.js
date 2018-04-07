@@ -53,17 +53,14 @@ let server = http.createServer(function (req, res) {
                 res.writeHead(200, {'Content-Type': 'text/html'});
                 res.end(data);
             });
-        }
-        else if (req.url.match(/.jpg$/)) {
+        } else if (req.url.match(/.jpg$/)) {
             let imgPath = path.join(__dirname, 'images', fileName);
             let imgStream = fs.createReadStream(imgPath);
 
             res.writeHead(200, {'Content-Type': 'image/jpeg'});
 
             imgStream.pipe(res);
-        }
-
-        else if (req.url.match(/.png$/)) {
+        } else if (req.url.match(/.png$/)) {
             let imgPath = path.join(__dirname, 'images', fileName);
             let imgStream = fs.createReadStream(imgPath);
 

@@ -15,7 +15,7 @@ const validator   = require('../util/validator');
 let PORT          = 4400;
 let serverPort    = 3300;
 let serverAddress = '127.0.0.1';
-let CDN_Address    = '127.0.0.1';
+let CDN_Address   = '127.0.0.1';
 
 if (_.includes(process.argv, '--help')) {
     console.log('Usage: node CDN [options]\n');

@@ -12,12 +12,17 @@
     "lodash": "4.17.4"
   },
   "devDependencies": {
+    "babel-loader": "^7.1.4",
     "eslint": "^4.19.1",
-    "jasmine": "^3.1.0"
+    "jasmine": "^3.1.0",
+    "webpack": "^4.5.0",
+    "webpack-cli": "^2.0.14"
   },
   "scripts": {
     "test": "npm run lint && jasmine",
     "lint": "sh util/lintRunner.sh",
-    "fix": "sh util/lintFixer.sh"
+    "fix": "sh util/lintFixer.sh",
+    "build": "webpack -p",
+    "clean": "rm -rf dist/"
   }
 }
