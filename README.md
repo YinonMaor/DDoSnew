@@ -4,7 +4,8 @@ DDoS Thesis:
 3. [Our Goal:](#our-goal)  
 4. [Dependencies:](#dependencies)  
 5. [Installation:](#installation)
-6. [Practical Overview:](#practical-overview)
+6. [Bundling:](#bundling)
+7. [Practical Overview:](#practical-overview)
 
 ## Introduction
 DoS attacks are attempts to exhaust server-side assets and designed to prevent client-to-server communication (denial of service). Simply, we can say that stealth server sabotage wires or even the server is denial of service, but in the context of data security we discuss about remote attacks and not physical sabotaging.  
@@ -42,6 +43,17 @@ Our main goal is to develop an automatic open-source system that would identify 
     yarn
     ```
 4. Run the module as describes in each module's directory.
+
+## Bundling:
+In case you want running the project with high performance, you might use the bundled modules.  
+
+By running:
+```
+npm run build
+```
+A directory with bundled modules (server, client and CDN) would be created. 
+ 
+Running the bundled module is exactly the same as for unbundled modules.
 
 ## Practical Overview:
 In this repo, you might find about our modules that demonstrating our various parts of the research:  

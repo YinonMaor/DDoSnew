@@ -37,18 +37,15 @@ process.argv.forEach(function (val, index, array) {
             process.exit(2);
         }
         ip = array[index + 1] || ip;
-    }
-    else if (val === '-p' && array[index + 1]) {
+    } else if (val === '-p' && array[index + 1]) {
         if (!validator.isValidPort(array[index + 1])) {
             console.error('\x1b[31m', '--------ERROR!--------\nCDN server failed to load:\nInvalid given server\'s port.');
             process.exit(2);
         }
         PORT = parseInt(array[index + 1]) || PORT;
-    }
-    else if (val === '-ht' && array[index + 1]) {
+    } else if (val === '-ht' && array[index + 1]) {
         path = array[index + 1] || path;
-    }
-    else if (val === '-f' && array[index + 1]) {
+    } else if (val === '-f' && array[index + 1]) {
         dir = array[index + 1] || dir;
     }
 });

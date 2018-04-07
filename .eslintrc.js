@@ -9,6 +9,8 @@ module.exports = {
         "sourceType": "module"
     },
     "rules": {
+        'brace-style': 'error',
+        'no-throw-literal': 'error',
         'no-console': 'off',
         "indent": [
             "off",
