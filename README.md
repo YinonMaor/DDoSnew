@@ -53,7 +53,9 @@ npm run build
 ```
 A directory with bundled modules (server, client and CDN) would be created. 
  
-Running the bundled module is exactly the same as for unbundled modules.
+Running the bundled module is exactly the same as for unbundled modules.  
+
+This is very useful for running these modules with only one single file, and not being dependent on some installed modules 
 
 ## Practical Overview:
 In this repo, you might find about our modules that demonstrating our various parts of the research:  
