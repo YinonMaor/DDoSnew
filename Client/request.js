@@ -18,14 +18,14 @@ if (_.includes(process.argv, '--help')) {
     console.log('Usage: node request [options]\n');
     console.log('Options:');
     console.log('\x1b[31m', 'M', '\x1b[0m' ,'- Mandatory');
-    console.log('  --t        ' , '\x1b[31m', 'M', '\x1b[0m', '      Define server\'s IP argument');
-    console.log('  --p        ' , '\x1b[31m', 'M', '\x1b[0m', '      Define server\'s port argument');
-    console.log('  --f                   Define path of saving files argument (\'./\' by default)');
-    console.log('  --ht                  Define requested path argument (\'/\' by default)');
+    console.log('  -t        ' , '\x1b[31m', 'M', '\x1b[0m', '      Define server\'s IP argument');
+    console.log('  -p        ' , '\x1b[31m', 'M', '\x1b[0m', '      Define server\'s port argument');
+    console.log('  -f                   Define path of saving files argument (\'./\' by default)');
+    console.log('  -ht                  Define requested path argument (\'/\' by default)');
     process.exit(0);
 }
 
-if (!_.includes(process.argv, '--t') || !_.includes(process.argv, '--p')) {
+if (!_.includes(process.argv, '-t') || !_.includes(process.argv, '-p')) {
     console.error('\x1b[31m', '--------ERROR!--------\nClient module missing arguments:\nServer IP and port are mandatory arguments.\nYou can find more information at README.md file.');
     process.exit(1);
 }
