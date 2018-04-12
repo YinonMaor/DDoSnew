@@ -111,6 +111,9 @@ let server = http.createServer(function (req, res) {
  * Defining the server's listener
  */
 require('dns').lookup(require('os').hostname(), function (err, add) {
+    if (err) {
+        throw err;
+    }
     CDN_Address = add;
     server.listen(PORT, CDN_Address);
     console.log(`CDN Server is running on ip ${CDN_Address}, port ${PORT}.`);

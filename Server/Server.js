@@ -89,6 +89,9 @@ let server = http.createServer(function (req, res) {
  * Defining the server's listener
  */
 require('dns').lookup(require('os').hostname(), function (err, add) {
+    if (err) {
+        throw err;
+    }
     address = add;
     server.listen(PORT, address);
     console.log(`Server is running on ip ${address}, port ${PORT}.`);
