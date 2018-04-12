@@ -10,6 +10,7 @@ module.exports = {
     },
     "rules": {
         'brace-style': 'error',
+        'comma-dangle': 'error',
         'no-throw-literal': 'error',
         'no-console': 'off',
         "indent": [
