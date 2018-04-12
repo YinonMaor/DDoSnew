@@ -3,9 +3,9 @@
  */
 'use strict';
 
-let http        = require('http');
-let fs          = require('fs');
-let _           = require('lodash');
+const http        = require('http');
+const fs          = require('fs');
+const _           = require('lodash');
 const validator = require('../util/validator');
 
 
@@ -56,7 +56,7 @@ if (!path.startsWith('/')) {
     path = '/'.concat(path);
 }
 
-let options = {
+const options = {
     hostname: ip,
     port: PORT,
     path: path,
@@ -68,7 +68,7 @@ if (path === '/') {
 }
 
 for (let i = 0; i < amount; i++) {
-    let req = http.request(options, function (res) {
+    const req = http.request(options, function (res) {
         let responseBody = '';
         res.on('data', function (chunk) {
             responseBody += chunk;

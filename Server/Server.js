@@ -37,7 +37,7 @@ process.argv.forEach(function (val, index, array) {
 /**
  * Creating the server and defining the specific service for various requests.
  */
-let server = http.createServer(function (req, res) {
+const server = http.createServer(function (req, res) {
     console.log(`${req.method} request for ${req.url}`);
     console.log(req.connection.remoteAddress);
     let fileName = req.url;
@@ -54,15 +54,15 @@ let server = http.createServer(function (req, res) {
                 res.end(data);
             });
         } else if (req.url.match(/.jpg$/)) {
-            let imgPath = path.join(__dirname, 'images', fileName);
-            let imgStream = fs.createReadStream(imgPath);
+            const imgPath = path.join(__dirname, 'images', fileName);
+            const imgStream = fs.createReadStream(imgPath);
 
             res.writeHead(200, {'Content-Type': 'image/jpeg'});
 
             imgStream.pipe(res);
         } else if (req.url.match(/.png$/)) {
-            let imgPath = path.join(__dirname, 'images', fileName);
-            let imgStream = fs.createReadStream(imgPath);
+            const imgPath = path.join(__dirname, 'images', fileName);
+            const imgStream = fs.createReadStream(imgPath);
 
             res.writeHead(200, {'Content-Type': 'image/png'});
 
@@ -98,7 +98,7 @@ require('dns').lookup(require('os').hostname(), function (err, add) {
 });
 
 function isFileExistsInDirectory(dirPath, fileName) {
-    let files = fs.readdirSync(dirPath, function(err) {
+    const files = fs.readdirSync(dirPath, function(err) {
         if (err) {
             throw err;
         }

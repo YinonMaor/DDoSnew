@@ -14,6 +14,8 @@ module.exports = {
         'no-throw-literal': 'error',
         'no-debugger': 'error',
         'no-empty': 'error',
+        'no-var': 'error',
+        'prefer-const': 'error',
         'no-dupe-args': 'error',
         'handle-callback-err': 'error',
         'no-console': 'off',

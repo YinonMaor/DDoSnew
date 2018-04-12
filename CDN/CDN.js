@@ -57,7 +57,7 @@ process.argv.forEach(function (val, index, array) {
 /**
  * Creating the server and defining the specific service for various requests.
  */
-let server = http.createServer(function (req, res) {
+const server = http.createServer(function (req, res) {
     console.log(`${req.method} request for ${req.url}`);
     console.log(req.connection.remoteAddress);
     let fileName = req.url;
@@ -66,14 +66,14 @@ let server = http.createServer(function (req, res) {
     } else {
         fileName = cleaner.cleanFileName(fileName);
     }
-    let options = {
+    const options = {
         hostname: serverAddress,
         port: serverPort,
         path: fileName,
         method: 'GET'
     };
 
-    let request = http.request(options, function (result) {
+    const request = http.request(options, function (result) {
         let responseBody = '';
         result.on('data', function (chunk) {
             responseBody += chunk;
