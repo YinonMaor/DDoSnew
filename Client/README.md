@@ -47,7 +47,7 @@ You can run the client GUI with the following commands:
 
 Operating Instructions - GUI :
 ```
-  1. Enter ip destanation.(0.0.0.0-255.255.255.255)
+  1. Enter ip destanation.(0.0.0.0 - 255.255.255.255)
   2. Enter Port (1024 - 65535)
   3. Choose destination folder in your computer (defualt: \dev\null)
   4. Click on attack from list
