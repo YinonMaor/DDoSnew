@@ -2,7 +2,8 @@ Client Module:
 1. [Introduction](#introduction)  
 2. [Dependencies:](#dependencies)  
 3. [Running The Client Requests:](#running-the-client-requests)
-4. [Troubleshooting:](#troubleshooting)
+4. [Client Requests Via GUI:](#client-requests-via-gui)
+5. [Troubleshooting:](#troubleshooting)
 
 ## Introduction
 The client module defines a very effective attacker end-point, which pushes huge amount of requests for the server.
@@ -13,11 +14,6 @@ Node version ^8.7.0
 Python version ^3.5.0
 
 ## Running The Client Requests:
-You can run the client GUI with the following commands:
-
-```
-  $ python3 DDoS_GUI.py
-```
 
 In case you want to use the command line:  
 ```
@@ -40,6 +36,22 @@ You might also use the following flags:
     <port>                Port destination for attack.
     <path>                path of folder to download files (default dev/null/)
     <requested file>      path to requested file on the server.
+```
+## Client Requests Via GUI:
+You can run the client GUI with the following commands:
+
+```
+  $ python3 DDoS_GUI.py
+```
+
+Operating Instructions - GUI :
+```
+  -Enter ip destanation.(0.0.0.0-255.255.255.255)
+  -Enter Port (1-65535)
+  -Choose Folder that Object download in your computer (defualt: \dev\null)
+  -Click on attack from list
+  -Click on START to start your attack
+  -Click on STOP to stop attack
 ```
 
 ## Troubleshooting:
