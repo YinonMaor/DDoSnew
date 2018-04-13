@@ -17,7 +17,7 @@ Python version ^3.5.0
 
 In case you want to use the command line:  
 ```
-    node request -t <server_ip> -p <server_port>
+  $ node request -t <server_ip> -p <server_port>
 ```
 The `-t` and `-p` are mandatory fields in order to run the request for the server.
 You might also use the following flags:
@@ -29,11 +29,12 @@ You might also use the following flags:
     -t                    define argument of IP destination.
     -p                    define argument of Port destination.
     -f                    define argument of path folder.
-    -ht                   define argument of requested file
+    -ht                   define argument of requested file.
+    --flood               define flooding operation to the server.
 
   Args:
     <ip>                  IP address for attack.
-    <port>                Port destination for attack.
+    <port>                port destination for attack.
     <path>                path of folder to download files (default dev/null/)
     <requested file>      path to requested file on the server.
 ```
@@ -46,12 +47,12 @@ You can run the client GUI with the following commands:
 
 Operating Instructions - GUI :
 ```
-  -Enter ip destanation.(0.0.0.0-255.255.255.255)
-  -Enter Port (1-65535)
-  -Choose Folder that Object download in your computer (defualt: \dev\null)
-  -Click on attack from list
-  -Click on START to start your attack
-  -Click on STOP to stop attack
+  1. Enter ip destanation.(0.0.0.0-255.255.255.255)
+  2. Enter Port (1024 - 65535)
+  3. Choose destination folder in your computer (defualt: \dev\null)
+  4. Click on attack from list
+  5. Click on START to start your attack
+  6. Click on STOP to stop attack
 ```
 
 ## Troubleshooting:
@@ -64,6 +65,6 @@ Error: listen EADDRINUSE
 ```
 It means that you have another node process which is already running the same file or the PORT (either the default or the chosen port) is in use. If you still want to the server, be sure that no node process is running a important task, and try running:
 ```
-sudo killall node
+ $ sudo killall node
 ```
 It should ask for a password and close any node process. Now you would be able to run the requests.
