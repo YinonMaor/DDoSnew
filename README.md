@@ -51,7 +51,7 @@ By running:
 ```
 npm run build
 ```
-A directory with bundled modules (server, client and CDN) would be created. 
+A directory named `dist/` with bundled modules (server, client and CDN) would be created. 
  
 Running the bundled module is exactly the same as for unbundled modules.  
 
