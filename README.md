@@ -28,19 +28,19 @@ Our main goal is to develop an automatic open-source system that would identify 
 ## Installation:
 1. Clone the repository:  
     ```
-    git clone https://github.com/YinonMaor/DDoSMitigation.git
+    $ git clone https://github.com/YinonMaor/DDoSMitigation.git
     ```
 2. Enter the project's directory:
     ```
-    cd DDoSMitigation
+    $ cd DDoSMitigation
     ```
 3. Install dependent packages:
     ```
-    npm install
+    $ npm install
     ```
     Or, if you have yarn installed:
     ```
-    yarn
+    $ yarn
     ```
 4. Run the module as describes in each module's directory.
 
@@ -49,7 +49,7 @@ In case you want running the project with high performance, you might use the bu
 
 By running:
 ```
-npm run build
+  $ npm run build
 ```
 A directory named `dist/` with bundled modules (server, client and CDN) would be created. 
  
