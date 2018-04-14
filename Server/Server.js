@@ -10,6 +10,7 @@ const http      = require('http');
 const fs        = require('fs');
 const path      = require('path');
 const _         = require('lodash');
+const utils     = require('../util/utils');
 const validator = require('../util/validator');
 const cleaner   = require('../util/cleaner');
 
@@ -44,7 +45,7 @@ const server = http.createServer(function (req, res) {
     if (fileName === '/' || fileName === '/index.html' || fileName === 'index.html') {
         fileName = 'index.html';
     }
-    if (isFileExistsInDirectory('.', fileName)) {
+    if (utils.isFileExistsInDirectory('.', fileName)) {
         if (_.includes(fileName, '.html')) {
             fs.readFile(`./${fileName}`, function (err, data) {
                 if (err) {
@@ -96,12 +97,3 @@ require('dns').lookup(require('os').hostname(), function (err, add) {
     server.listen(PORT, address);
     console.log(`Server is running on ip ${address}, port ${PORT}.`);
 });
-
-function isFileExistsInDirectory(dirPath, fileName) {
-    const files = fs.readdirSync(dirPath, function(err) {
-        if (err) {
-            throw err;
-        }
-    });
-    return _.includes(files, fileName);
-}
