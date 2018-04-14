@@ -17,6 +17,10 @@ module.exports = {
         'no-var': 'error',
         'prefer-const': 'error',
         'no-dupe-args': 'error',
+        'arrow-parens': [
+            'error',
+            'as-needed'
+        ],
         'handle-callback-err': 'error',
         'no-console': 'off',
         "indent": [
