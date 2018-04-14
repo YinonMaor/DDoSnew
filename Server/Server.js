@@ -10,8 +10,8 @@ const http      = require('http');
 const fs        = require('fs');
 const path      = require('path');
 const _         = require('lodash');
-const utils     = require('../util/utils');
 const validator = require('../util/validator');
+const utils     = require('../util/utils');
 const cleaner   = require('../util/cleaner');
 
 
@@ -45,10 +45,11 @@ const server = http.createServer(function (req, res) {
     if (fileName === '/' || fileName === '/index.html' || fileName === 'index.html') {
         fileName = 'index.html';
     }
-    if (utils.isFileExistsInDirectory('.', fileName)) {
+    if (utils.isFileExistsInDirectory(__dirname, fileName)) {
         if (_.includes(fileName, '.html')) {
             fs.readFile(`./${fileName}`, function (err, data) {
                 if (err) {
+                    console.log(__dirname);
                     throw err;
                 }
                 res.writeHead(200, {'Content-Type': 'text/html'});
@@ -95,5 +96,5 @@ require('dns').lookup(require('os').hostname(), function (err, add) {
     }
     address = add;
     server.listen(PORT, address);
-    console.log(`Server is running on ip ${address}, port ${PORT}.`);
+    process.stdout.write(`Server is listening on ip ${address}, port ${PORT}.\n`);
 });
