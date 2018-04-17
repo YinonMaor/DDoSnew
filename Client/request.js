@@ -3,10 +3,10 @@
  */
 'use strict';
 
-const http        = require('http');
-const fs          = require('fs');
-const _           = require('lodash');
-const validator = require('../util/validator');
+const http       = require('http');
+const fs         = require('fs');
+const _          = require('lodash');
+const validator  = require('../util/validator');
 
 
 let PORT = 80;
@@ -17,9 +17,9 @@ let dir  = './';
 if (_.includes(process.argv, '--help')) {
     console.log('Usage: node request [options]\n');
     console.log('Options:');
-    console.log('\x1b[31m', 'M', '\x1b[0m' ,'- Mandatory');
-    console.log('  -t        ' , '\x1b[31m', 'M', '\x1b[0m', '      Define server\'s IP argument');
-    console.log('  -p        ' , '\x1b[31m', 'M', '\x1b[0m', '      Define server\'s port argument');
+    console.log('\x1b[31m', 'M', '\x1b[0m', '- Mandatory');
+    console.log('  -t        ', '\x1b[31m', 'M', '\x1b[0m', '      Define server\'s IP argument');
+    console.log('  -p        ', '\x1b[31m', 'M', '\x1b[0m', '      Define server\'s port argument');
     console.log('  -f                   Define path of saving files argument (\'./\' by default)');
     console.log('  -ht                  Define requested path argument (\'/\' by default)');
     process.exit(0);
@@ -30,7 +30,7 @@ if (!_.includes(process.argv, '-t') || !_.includes(process.argv, '-p')) {
     process.exit(1);
 }
 
-process.argv.forEach(function (val, index, array) {
+process.argv.forEach((val, index, array) => {
     if (val === '-t' && array[index + 1]) {
         if (!validator.isValidIp(array[index + 1])) {
             console.error('\x1b[31m', '--------ERROR!--------\nServer failed to load:\nInvalid given server\'s IP.');
@@ -68,20 +68,20 @@ if (path === '/') {
 }
 
 for (let i = 0; i < amount; i++) {
-    const req = http.request(options, function (res) {
+    const req = http.request(options, res => {
         let responseBody = '';
-        res.on('data', function (chunk) {
+        res.on('data', chunk => {
             responseBody += chunk;
         });
-        res.on('end', function () {
-            fs.writeFile(path, responseBody, function (err) {
+        res.on('end', () => {
+            fs.writeFile(path, responseBody, err => {
                 if (err) {
                     throw err;
                 }
             });
         });
     });
-    req.on('error', function (err) {
+    req.on('error', err => {
         console.log(`problem with request: ${err}`);
     });
     req.end();

@@ -15,7 +15,7 @@ describe('Server and client connectivity:', () => {
     //     done();
     // });
 
-    it('should transfer index.html file to client', (done) => {
+    it('should transfer index.html file to client', done => {
         const client = cp.fork('Client/request', ['-t', ip(), '-p', 3300], { silent: true });
         let currentPath = __dirname.split('/');
         currentPath.pop();
@@ -24,7 +24,7 @@ describe('Server and client connectivity:', () => {
             expect(utils.isFileExistsInDirectory(currentPath, 'index.html')).toBe(true);
             done();
         }, 2000);
-        client.on('data', function (data) {
+        client.on('data', data => {
             console.log(data);
         });
     });

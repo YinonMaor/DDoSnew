@@ -20,10 +20,10 @@ let CDN_Address   = '127.0.0.1';
 if (_.includes(process.argv, '--help')) {
     console.log('Usage: node CDN [options]\n');
     console.log('Options:');
-    console.log('\x1b[31m', 'M', '\x1b[0m' ,'- Mandatory');
+    console.log('\x1b[31m', 'M', '\x1b[0m', '- Mandatory');
     console.log('  --port                     Define CDN server\'s port argument (4400 by default)');
-    console.log('  --server         ' , '\x1b[31m', 'M', '\x1b[0m', '     Define original server\'s IP argument');
-    console.log('  --serverPort     ' , '\x1b[31m', 'M', '\x1b[0m', '     Define original server\'s Port argument');
+    console.log('  --server         ', '\x1b[31m', 'M', '\x1b[0m', '     Define original server\'s IP argument');
+    console.log('  --serverPort     ', '\x1b[31m', 'M', '\x1b[0m', '     Define original server\'s Port argument');
     process.exit(0);
 }
 
@@ -32,7 +32,7 @@ if (!_.includes(process.argv, '--serverPort') || !_.includes(process.argv, '--se
     process.exit(1);
 }
 
-process.argv.forEach(function (val, index, array) {
+process.argv.forEach((val, index, array) => {
     if (val === '--port' && array[index + 1]) {
         if (!validator.isValidPort(array[index + 1])) {
             console.error('\x1b[31m', '--------ERROR!--------\nCDN server failed to load:\nInvalid given port.');
@@ -57,7 +57,7 @@ process.argv.forEach(function (val, index, array) {
 /**
  * Creating the server and defining the specific service for various requests.
  */
-const server = http.createServer(function (req, res) {
+const server = http.createServer((req, res) => {
     console.log(`${req.method} request for ${req.url}`);
     console.log(req.connection.remoteAddress);
     let fileName = req.url;
@@ -73,18 +73,18 @@ const server = http.createServer(function (req, res) {
         method: 'GET'
     };
 
-    const request = http.request(options, function (result) {
+    const request = http.request(options, result => {
         let responseBody = '';
-        result.on('data', function (chunk) {
+        result.on('data', chunk => {
             responseBody += chunk;
         });
-        result.on('end', function () {
-            fs.writeFileSync('./' + fileName, responseBody, function (err) {
+        result.on('end', () => {
+            fs.writeFileSync('./' + fileName, responseBody, err => {
                 if (err) {
                     throw err;
                 }
             });
-            fs.readFile('./' + fileName, function(err, newData) {
+            fs.readFile('./' + fileName, (err, newData) => {
                 if (err) {
                     throw err;
                 }
@@ -92,7 +92,7 @@ const server = http.createServer(function (req, res) {
                 res.end(newData);
             });
             fileName = cleaner.cleanFileName(fileName);
-            fs.unlink(fileName, function(err) {
+            fs.unlink(fileName, err => {
                 if (err) {
                     throw err;
                 }
@@ -101,7 +101,7 @@ const server = http.createServer(function (req, res) {
 
     });
 
-    request.on('error', function (err) {
+    request.on('error', err => {
         console.log(`problem with request: ${err}`);
     });
     request.end();
@@ -110,7 +110,7 @@ const server = http.createServer(function (req, res) {
 /**
  * Defining the server's listener
  */
-require('dns').lookup(require('os').hostname(), function (err, add) {
+require('dns').lookup(require('os').hostname(), (err, add) => {
     if (err) {
         throw err;
     }

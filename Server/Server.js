@@ -25,7 +25,7 @@ if (_.includes(process.argv, '--help')) {
     process.exit(0);
 }
 
-process.argv.forEach(function (val, index, array) {
+process.argv.forEach((val, index, array) => {
     if (val === '--port' && array[index + 1]) {
         if (!validator.isValidPort(array[index + 1])) {
             console.error('\x1b[31m', '--------ERROR!--------\nServer failed to load:\nInvalid given port.');
@@ -38,7 +38,7 @@ process.argv.forEach(function (val, index, array) {
 /**
  * Creating the server and defining the specific service for various requests.
  */
-const server = http.createServer(function (req, res) {
+const server = http.createServer((req, res) => {
     console.log(`${req.method} request for ${req.url}`);
     console.log(req.connection.remoteAddress);
     let fileName = req.url;
@@ -47,7 +47,7 @@ const server = http.createServer(function (req, res) {
     }
     if (utils.isFileExistsInDirectory(__dirname, fileName)) {
         if (_.includes(fileName, '.html')) {
-            fs.readFile(`./${fileName}`, function (err, data) {
+            fs.readFile(`./${fileName}`, (err, data) => {
                 if (err) {
                     console.log(__dirname);
                     throw err;
@@ -72,12 +72,12 @@ const server = http.createServer(function (req, res) {
         }
     } else {
         fileName = cleaner.cleanFileName(fileName);
-        fs.writeFileSync(fileName, 'File Not Found. Please check your request.\n', function (err) {
+        fs.writeFileSync(fileName, 'File Not Found. Please check your request.\n', err => {
             if (err) {
                 throw err;
             }
         });
-        fs.readFile(`./${fileName}`, function (err, data) {
+        fs.readFile(`./${fileName}`, (err, data) => {
             if (err) {
                 throw err;
             }
@@ -90,7 +90,7 @@ const server = http.createServer(function (req, res) {
 /**
  * Defining the server's listener
  */
-require('dns').lookup(require('os').hostname(), function (err, add) {
+require('dns').lookup(require('os').hostname(), (err, add) => {
     if (err) {
         throw err;
     }
