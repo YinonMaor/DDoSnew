@@ -6,13 +6,13 @@
 /**
  * Dependent modules
  */
-const http      = require('http');
-const fs        = require('fs');
-const path      = require('path');
 const _         = require('lodash');
-const validator = require('../util/validator');
+const fs        = require('fs');
+const http      = require('http');
+const path      = require('path');
 const utils     = require('../util/utils');
 const cleaner   = require('../util/cleaner');
+const validator = require('../util/validator');
 
 
 let PORT    = 3300;
@@ -49,7 +49,6 @@ const server = http.createServer((req, res) => {
         if (_.includes(fileName, '.html')) {
             fs.readFile(`./${fileName}`, (err, data) => {
                 if (err) {
-                    console.log(__dirname);
                     throw err;
                 }
                 res.writeHead(200, {'Content-Type': 'text/html'});

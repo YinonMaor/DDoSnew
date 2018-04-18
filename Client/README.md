@@ -9,9 +9,9 @@ Client Module:
 The client module defines a very effective attacker end-point, which pushes huge amount of requests for the server.
 
 ## Dependencies:  
-MacOS / Linux  
-Node version ^8.7.0  
-Python version ^3.5.0
+* MacOS / Linux  
+* Node version ^8.7.0  
+* Python version ^3.5.0
 
 ## Running The Client Requests:
 

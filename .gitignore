@@ -1,5 +1,12 @@
+### Operating systems ###
 .DS_Store
+
+
+### Regular dev ###
 .idea
 node_modules/
-dist/
 yarn.lock
+
+
+### Auto-generated files while build ###
+dist/

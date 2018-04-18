@@ -3,9 +3,12 @@
  */
 'use strict';
 
-const http       = require('http');
-const fs         = require('fs');
+/**
+ * Dependent modules
+ */
 const _          = require('lodash');
+const fs         = require('fs');
+const http       = require('http');
 const validator  = require('../util/validator');
 
 

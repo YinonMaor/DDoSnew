@@ -8,7 +8,8 @@ Server Module:
 The sever handles his various requests, coming from the CDN. The server should provide any service which it has been requested because the assumption the CDN blocks every malicious request.
 
 ## Dependencies:
-Node version ^8.7.0
+* MacOS / Linux  
+* Node version ^8.7.0  
 
 ## Running The Server:
 You can run the server with the following commands:

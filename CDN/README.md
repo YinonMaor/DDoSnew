@@ -8,7 +8,8 @@ CDN Module:
 The CDN sever handles his various requests coming from the clients, sending each one of the to the server. The CDN server has it's algorithm to determine which requests are legal and which are meant to flood the server.
 
 ## Dependencies:
-Node version ^8.7.0
+* MacOS / Linux  
+* Node version ^8.7.0  
 
 ## Running The CDN Server:
 You can run the server with the following commands:
