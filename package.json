@@ -20,9 +20,9 @@
     "webpack-cli": "^2.0.14"
   },
   "scripts": {
-    "test": "jasmine",
-    "lint": "sh util/lintRunner.sh",
-    "fix": "sh util/lintFixer.sh",
+    "test": "npm run lint && jasmine",
+    "lint": "./node_modules/.bin/eslint .",
+    "fix": "./node_modules/.bin/eslint . --fix",
     "build": "webpack -p",
     "clean": "rm -rf dist/"
   }

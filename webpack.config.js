@@ -1,6 +1,6 @@
 const path = require('path');
 const _ = require('lodash');
-let global = {
+const global = {
     module: {
         rules: [
             {
@@ -17,7 +17,7 @@ let global = {
     target: 'node'
 };
 
-let server = _.assign({}, global, {
+const server = _.assign({}, global, {
     entry: [
         './Server/Server.js'
     ],
@@ -26,7 +26,7 @@ let server = _.assign({}, global, {
         filename: 'server.js'
     }
 });
-let client = _.assign({}, global, {
+const client = _.assign({}, global, {
     entry: [
         './Client/request.js'
     ],
@@ -35,7 +35,7 @@ let client = _.assign({}, global, {
         filename: 'request.js'
     }
 });
-let cdn = _.assign({}, global, {
+const cdn = _.assign({}, global, {
     entry: [
         './CDN/CDN.js'
     ],
