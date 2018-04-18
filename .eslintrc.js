@@ -1,17 +1,17 @@
 module.exports = {
-    "env": {
-        "es6": true,
-        "node": true,
-        "jasmine": true
+    'env': {
+        'es6': true,
+        'node': true,
+        'jasmine': true
     },
-    "extends": "eslint:recommended",
-    "parserOptions": {
-        "sourceType": "module"
+    'extends': 'eslint:recommended',
+    'parserOptions': {
+        'sourceType': 'module'
     },
-    "plugins": [
-        "jasmine"
+    'plugins': [
+        'jasmine'
     ],
-    "rules": {
+    'rules': {
         'brace-style': 'error',
         'comma-dangle': 'error',
         'comma-spacing': 'error',
@@ -31,7 +31,6 @@ module.exports = {
         'semi-spacing': 'error',
         'keyword-spacing': 'error',
         'no-undef': 'error',
-        'jasmine/no-focused-tests': 2,
         'no-lonely-if': 'error',
         'arrow-parens': [
             'error',
@@ -39,21 +38,28 @@ module.exports = {
         ],
         'handle-callback-err': 'error',
         'no-console': 'off',
-        "indent": [
-            "off",
-            "tab"
+        'indent': [
+            'off',
+            'tab'
         ],
-        "linebreak-style": [
-            "error",
-            "unix"
+        'linebreak-style': [
+            'error',
+            'unix'
         ],
-        "quotes": [
-            "error",
-            "single"
+        'quotes': [
+            'error',
+            'single'
         ],
-        "semi": [
-            "error",
-            "always"
-        ]
+        'semi': [
+            'error',
+            'always'
+        ],
+
+        // Jasmine rules:
+        'jasmine/no-focused-tests': 'error',
+        'jasmine/valid-expect': 'error',
+        'jasmine/no-suite-callback-args': 'error',
+        'jasmine/no-disabled-tests': 'error',
+        'jasmine/missing-expect': 'error'
     }
 };

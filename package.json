@@ -21,7 +21,7 @@
     "webpack-cli": "^2.0.14"
   },
   "scripts": {
-    "test": "npm run lint && jasmine",
+    "test": "jasmine",
     "lint": "./node_modules/.bin/eslint .",
     "fix": "./node_modules/.bin/eslint . --fix",
     "build": "webpack -p",

@@ -1,5 +1,5 @@
-const path = require('path');
-const _ = require('lodash');
+const _      = require('lodash');
+const path   = require('path');
 const global = {
     module: {
         rules: [
