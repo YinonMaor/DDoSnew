@@ -8,6 +8,9 @@ module.exports = {
     "parserOptions": {
         "sourceType": "module"
     },
+    "plugins": [
+        "jasmine"
+    ],
     "rules": {
         'brace-style': 'error',
         'comma-dangle': 'error',
@@ -27,6 +30,8 @@ module.exports = {
         'no-extra-semi': 'error',
         'semi-spacing': 'error',
         'keyword-spacing': 'error',
+        'no-undef': 'error',
+        'jasmine/no-focused-tests': 2,
         'no-lonely-if': 'error',
         'arrow-parens': [
             'error',
