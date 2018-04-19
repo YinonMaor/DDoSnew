@@ -4,7 +4,7 @@ const validator = require('../util/validator');
 describe('Port should be valid:', () => {
 
     it('should be valid port - 1', () => {
-        expect(validator.isValidPort('1024')).toBe(true);
+        expect(validator.isValidPort('105524')).toBe(true);
     });
 
     it('should be valid port - 2', () => {
