@@ -8,13 +8,13 @@
  */
 const _          = require('lodash');
 const fs         = require('fs');
-const IP         = require('my-local-ip');
+const IP         = require('ip');
 const http       = require('http');
 const validator  = require('../util/validator');
 
 
 let PORT = 3300;
-let ip   = IP();
+let ip   = IP.address();
 let path = '/';
 let dir  = './';
 

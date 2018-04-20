@@ -1,6 +1,6 @@
 'use strict';
 const cp    = require('child_process');
-const ip    = require('my-local-ip');
+const IP    = require('ip');
 const utils = require('../util/utils');
 
 xdescribe('Server and client connectivity:', () => {// eslint-disable-line jasmine/no-disabled-tests
@@ -12,7 +12,7 @@ xdescribe('Server and client connectivity:', () => {// eslint-disable-line jasmi
 
         const clientPath = basePath + '/Client';
 
-        cp.execSync('node ' + clientPath + '/request', ['-t', ip(), '-p', 3300]);
+        cp.execSync('node ' + clientPath + '/request', ['-t', IP.address(), '-p', 3300]);
 
         expect(utils.isFileExistsInDirectory(clientPath, 'index.html')).toBe(true);
     });
