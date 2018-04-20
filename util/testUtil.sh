@@ -19,5 +19,8 @@ code=$?
 kill -9 $server_pid
 echo "Server killed"
 
+# cleaning test's data
+npm run clean
+
 # exiting with the test's exit code
 exit $code
