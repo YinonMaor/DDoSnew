@@ -10,3 +10,7 @@ yarn.lock
 
 ### Auto-generated files while build ###
 dist/
+
+
+### Test's generated files ###
+Client/index.html
