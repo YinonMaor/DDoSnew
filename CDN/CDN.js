@@ -79,6 +79,7 @@ const server = http.createServer((req, res) => {
             responseBody += chunk;
         });
         result.on('end', () => {
+            fileName = cleaner.cleanFileName(fileName);
             fs.writeFileSync(`${__dirname}/${fileName}`, responseBody, err => {
                 if (err) {
                     throw err;
@@ -91,7 +92,6 @@ const server = http.createServer((req, res) => {
                 res.writeHead(200, {'Content-Type': 'text/html'}); // know when you're writing with text/html or image or plain
                 res.end(newData);
             });
-            fileName = cleaner.cleanFileName(fileName);
             fs.unlink(`${__dirname}/${fileName}`, err => {
                 if (err) {
                     throw err;
