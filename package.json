@@ -21,7 +21,7 @@
     "webpack-cli": "^2.0.14"
   },
   "scripts": {
-    "test": "sh testUtil.sh",
+    "test": "sh util/testUtil.sh",
     "lint": "./node_modules/.bin/eslint .",
     "fix": "./node_modules/.bin/eslint . --fix",
     "build": "webpack -p",

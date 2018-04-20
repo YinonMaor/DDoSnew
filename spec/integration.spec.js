@@ -3,7 +3,7 @@ const cp    = require('child_process');
 const ip    = require('my-local-ip');
 const utils = require('../util/utils');
 
-describe('Server and client connectivity:', () => {// eslint-disable-line jasmine/no-disabled-tests
+xdescribe('Server and client connectivity:', () => {// eslint-disable-line jasmine/no-disabled-tests
 
     it('should transfer index.html file to client', () => {
         let basePath = __dirname.split('/');
