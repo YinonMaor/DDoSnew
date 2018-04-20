@@ -2,7 +2,7 @@
 
 # running the server and outputting it's log to temporary file
 output=$(mktemp "${TMPDIR:-/tmp/}$(basename 0).XXX")
-node server/Server &> $output &
+node Server/Server &> $output &
 server_pid=$!
 echo "Initializing the server with pid: $server_pid . Wait:\n"
 
