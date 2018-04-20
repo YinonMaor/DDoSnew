@@ -27,6 +27,6 @@
     "build": "webpack -p",
     "jasmine": "jasmine",
     "clean": "rm -rf dist/ && rm -f Client/index.html",
-    "ci": "npm run lint && npm run test"
+    "ci": "npm run lint && npm run jasmine"
   }
 }
