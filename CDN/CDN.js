@@ -79,12 +79,12 @@ const server = http.createServer((req, res) => {
             responseBody += chunk;
         });
         result.on('end', () => {
-            fs.writeFileSync('./' + fileName, responseBody, err => {
+            fs.writeFileSync(`${__dirname}/${fileName}`, responseBody, err => {
                 if (err) {
                     throw err;
                 }
             });
-            fs.readFile(`${__dirname}/${fileName}`, (err, newData) => { // this line changed if there's a problem
+            fs.readFile(`${__dirname}/${fileName}`, (err, newData) => { // this line changed if there's a problem (and 5 lines above)
                 if (err) {
                     throw err;
                 }
@@ -92,7 +92,7 @@ const server = http.createServer((req, res) => {
                 res.end(newData);
             });
             fileName = cleaner.cleanFileName(fileName);
-            fs.unlink(fileName, err => {
+            fs.unlink(`${__dirname}/${fileName}`, err => {
                 if (err) {
                     throw err;
                 }

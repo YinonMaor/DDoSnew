@@ -71,18 +71,24 @@ const server = http.createServer((req, res) => {
         }
     } else {
         fileName = cleaner.cleanFileName(fileName);
-        fs.writeFileSync(fileName, 'File Not Found. Please check your request.\n', err => {
+        fs.writeFileSync(`${__dirname}/${fileName}`, 'File Not Found. Please check your request.\n', err => {
             if (err) {
                 throw err;
             }
         });
-        fs.readFile(`./${fileName}`, (err, data) => {
+        fs.readFile(`${__dirname}/${fileName}`, (err, data) => {
             if (err) {
                 throw err;
             }
             res.writeHead(200, {'Content-Type': 'text/plain'});
             res.end(data);
+            fs.unlink(`${__dirname}/${fileName}`, err => {
+                if (err) {
+                    throw err;
+                }
+            });
         });
+
     }
 });
 
