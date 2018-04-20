@@ -22,7 +22,7 @@ Our main goal is to develop an automatic open-source system that would identify 
 ## Dependencies:
 * MacOS / Linux
 * Node.js ^8.7.0
-* Python ^2.7.0
+* Python ^3.5.0
 * Git
 
 ## Installation:
