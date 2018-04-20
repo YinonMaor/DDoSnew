@@ -84,7 +84,7 @@ const server = http.createServer((req, res) => {
                     throw err;
                 }
             });
-            fs.readFile('./' + fileName, (err, newData) => {
+            fs.readFile(`${__dirname}/${fileName}`, (err, newData) => { // this line changed if there's a problem
                 if (err) {
                     throw err;
                 }

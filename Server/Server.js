@@ -47,7 +47,7 @@ const server = http.createServer((req, res) => {
     }
     if (utils.isFileExistsInDirectory(__dirname, fileName)) {
         if (_.includes(fileName, '.html')) {
-            fs.readFile(`./${fileName}`, (err, data) => {
+            fs.readFile(`${__dirname}/${fileName}`, (err, data) => {
                 if (err) {
                     throw err;
                 }
@@ -78,6 +78,7 @@ const server = http.createServer((req, res) => {
         });
         fs.readFile(`./${fileName}`, (err, data) => {
             if (err) {
+                console.log("error 2");
                 throw err;
             }
             res.writeHead(200, {'Content-Type': 'text/plain'});
@@ -91,6 +92,7 @@ const server = http.createServer((req, res) => {
  */
 require('dns').lookup(require('os').hostname(), (err, add) => {
     if (err) {
+        console.log("error 3");
         throw err;
     }
     address = add;

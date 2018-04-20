@@ -8,10 +8,8 @@ until grep -i 'Server is listening on ip ' $output
 do
   sleep 1
 done
-ps # here the server is running
 npm run test
-a=$?
-ps # here the server is not running
+code=$?
 kill -9 $server_pid
 echo "Server killed"
-exit $a
+exit $code
