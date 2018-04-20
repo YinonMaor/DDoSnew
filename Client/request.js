@@ -8,12 +8,13 @@
  */
 const _          = require('lodash');
 const fs         = require('fs');
+const IP         = require('my-local-ip');
 const http       = require('http');
 const validator  = require('../util/validator');
 
 
-let PORT = 80;
-let ip   = '127.0.0.1';
+let PORT = 3300;
+let ip   = IP();
 let path = '/';
 let dir  = './';
 
@@ -28,10 +29,10 @@ if (_.includes(process.argv, '--help')) {
     process.exit(0);
 }
 
-if (!_.includes(process.argv, '-t') || !_.includes(process.argv, '-p')) {
-    console.error('\x1b[31m', '--------ERROR!--------\nClient module missing arguments:\nServer IP and port are mandatory arguments.\nYou can find more information at README.md file.');
-    process.exit(1);
-}
+//if (!_.includes(process.argv, '-t') || !_.includes(process.argv, '-p')) {
+//    console.error('\x1b[31m', '--------ERROR!--------\nClient module missing arguments:\nServer IP and port are mandatory arguments.\nYou can find more information at README.md file.');
+//    process.exit(1);
+//}
 
 process.argv.forEach((val, index, array) => {
     if (val === '-t' && array[index + 1]) {
@@ -77,7 +78,7 @@ for (let i = 0; i < amount; i++) {
             responseBody += chunk;
         });
         res.on('end', () => {
-            fs.writeFile(path, responseBody, err => {
+            fs.writeFile(__dirname + '/' + path, responseBody, err => {
                 if (err) {
                     throw err;
                 }
