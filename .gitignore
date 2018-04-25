@@ -12,5 +12,9 @@ yarn.lock
 dist/
 
 
+### Client requested files: ###
+Client/files/
+
+
 ### Test's generated files ###
-Client/index.html
+Client/test/

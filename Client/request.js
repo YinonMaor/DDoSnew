@@ -16,7 +16,7 @@ const validator  = require('../util/validator');
 let PORT = 3300;
 let ip   = IP.address();
 let path = '/';
-let dir  = './';
+let dir  = 'files';
 
 if (_.includes(process.argv, '--help')) {
     console.log('Usage: node request [options]\n');
@@ -51,11 +51,14 @@ process.argv.forEach((val, index, array) => {
         path = array[index + 1] || path;
     } else if (val === '-f' && array[index + 1]) {
         dir = array[index + 1] || dir;
+        dir = _.replace(dir, /\//ig, '');
     }
 });
-
 const amount = 1; // expand for real DoS
 
+if (path === '/') {
+    path = 'index.html';
+}
 if (!path.startsWith('/')) {
     path = '/'.concat(path);
 }
@@ -67,10 +70,6 @@ const options = {
     method: 'GET'
 };
 
-if (path === '/') {
-    path = 'index.html';
-}
-
 for (let i = 0; i < amount; i++) {
     const req = http.request(options, res => {
         let responseBody = '';
@@ -78,7 +77,10 @@ for (let i = 0; i < amount; i++) {
             responseBody += chunk;
         });
         res.on('end', () => {
-            fs.writeFile(__dirname + '/' + path, responseBody, err => {
+            if (!fs.existsSync(`${__dirname}/${dir}`)){
+                fs.mkdirSync(`${__dirname}/${dir}`);
+            }
+            fs.writeFile(`${__dirname}/${dir}/${path}`, responseBody, err => {
                 if (err) {
                     throw err;
                 }

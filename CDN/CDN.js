@@ -8,6 +8,7 @@
  */
 const _         = require('lodash');
 const fs        = require('fs');
+const IP        = require('ip');
 const http      = require('http');
 const cleaner   = require('../util/cleaner');
 const validator = require('../util/validator');
@@ -15,7 +16,7 @@ const validator = require('../util/validator');
 let PORT          = 4400;
 let serverPort    = 3300;
 let CDN_Address   = '127.0.0.1';
-let serverAddress = '127.0.0.1';
+let serverAddress = IP.address();
 
 if (_.includes(process.argv, '--help')) {
     console.log('Usage: node CDN [options]\n');
@@ -27,10 +28,10 @@ if (_.includes(process.argv, '--help')) {
     process.exit(0);
 }
 
-if (!_.includes(process.argv, '--serverPort') || !_.includes(process.argv, '--server')) {
-    console.error('\x1b[31m', '--------ERROR!--------\nCDN server failed to load:\nServer IP and port are mandatory arguments.\nYou can find more information at README.md file.');
-    process.exit(1);
-}
+// if (!_.includes(process.argv, '--serverPort') || !_.includes(process.argv, '--server')) {
+//     console.error('\x1b[31m', '--------ERROR!--------\nCDN server failed to load:\nServer IP and port are mandatory arguments.\nYou can find more information at README.md file.');
+//     process.exit(1);
+// }
 
 process.argv.forEach((val, index, array) => {
     if (val === '--port' && array[index + 1]) {
