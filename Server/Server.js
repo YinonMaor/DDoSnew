@@ -9,7 +9,6 @@
 const _         = require('lodash');
 const fs        = require('fs');
 const http      = require('http');
-const path      = require('path');
 const utils     = require('../util/utils');
 const cleaner   = require('../util/cleaner');
 const validator = require('../util/validator');

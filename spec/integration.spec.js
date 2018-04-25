@@ -3,7 +3,7 @@ const cp    = require('child_process');
 const IP    = require('ip');
 const utils = require('../util/utils');
 
-describe('Integration tests:', () => {// eslint-disable-line jasmine/no-disabled-tests
+xdescribe('Integration tests:', () => {// eslint-disable-line jasmine/no-disabled-tests
 
     describe('Client and Server connectivity:', () => {
 
