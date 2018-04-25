@@ -86,13 +86,23 @@ const server = http.createServer((req, res) => {
                     throw err;
                 }
             });
-            fs.readFile(`${__dirname}/${fileName}`, (err, newData) => { // this line changed if there's a problem (and 5 lines above)
-                if (err) {
-                    throw err;
-                }
-                res.writeHead(200, {'Content-Type': 'text/html'}); // know when you're writing with text/html or image or plain
-                res.end(newData);
-            });
+            if (_.includes(fileName, '.html')) {
+                fs.readFile(`${__dirname}/${fileName}`, (err, newData) => {
+                    if (err) {
+                        throw err;
+                    }
+                    res.writeHead(200, {'Content-Type': 'text/html'});
+                    res.end(newData);
+                });
+            } else {
+                fs.readFile(`${__dirname}/${fileName}`, (err, newData) => {
+                    if (err) {
+                        throw err;
+                    }
+                    res.writeHead(200, {'Content-Type': 'text/plain'});
+                    res.end(newData);
+                });
+            }
             fs.unlink(`${__dirname}/${fileName}`, err => {
                 if (err) {
                     throw err;
