@@ -62,10 +62,8 @@ const server = http.createServer((req, res) => {
     console.log(`${req.method} request for ${req.url}`);
     console.log(req.connection.remoteAddress);
     let fileName = req.url;
-    if (fileName === '/' || fileName === '/index.html' || fileName === 'index.html') {
+    if (fileName === '/' || fileName === 'index.html') {
         fileName = '/index.html';
-    } else {
-        fileName = cleaner.cleanFileName(fileName);
     }
     const options = {
         hostname: serverAddress,
