@@ -3,7 +3,7 @@ const cp    = require('child_process');
 const IP    = require('ip');
 const utils = require('../util/utils');
 
-xdescribe('Integration tests:', () => {// eslint-disable-line jasmine/no-disabled-tests
+describe('Integration tests:', () => {// eslint-disable-line jasmine/no-disabled-tests
 
     describe('Client and Server connectivity:', () => {
 
@@ -36,7 +36,7 @@ xdescribe('Integration tests:', () => {// eslint-disable-line jasmine/no-disable
             const dirPath = `${clientPath}/test`;
             expect(utils.isFileExistsInDirectory(dirPath, 'index.html')).toBe(true);
         });
-// why not working with png
+
     });
 
 });
