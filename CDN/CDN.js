@@ -10,6 +10,8 @@ const _         = require('lodash');
 const fs        = require('fs');
 const IP        = require('ip');
 const http      = require('http');
+const util      = require('util');
+const utils     = require('../util/utils');
 const cleaner   = require('../util/cleaner');
 const validator = require('../util/validator');
 
@@ -17,6 +19,7 @@ let PORT          = 4400;
 let serverPort    = 3300;
 let CDN_Address   = '127.0.0.1';
 let serverAddress = IP.address();
+const database      = {};
 
 if (_.includes(process.argv, '--help')) {
     console.log('Usage: node CDN [options]\n');
@@ -59,9 +62,11 @@ process.argv.forEach((val, index, array) => {
  * Creating the server and defining the specific service for various requests.
  */
 const server = http.createServer((req, res) => {
-    console.log(`${req.method} request for ${req.url}`);
-    console.log(req.connection.remoteAddress);
     let fileName = req.url;
+    const ip = req.connection.remoteAddress;
+    console.log(`${req.method} request for ${fileName}`);
+    console.log(ip);
+    utils.addClientToDatabase(database, ip, fileName);
     if (fileName === '/' || fileName === 'index.html') {
         fileName = '/index.html';
     }
@@ -126,4 +131,10 @@ require('dns').lookup(require('os').hostname(), (err, add) => {
     CDN_Address = add;
     server.listen(PORT, CDN_Address);
     console.log(`CDN Server is running on ip ${CDN_Address}, port ${PORT}.`);
+});
+
+process.on('SIGINT', () => {
+    fs.writeFileSync('./data.json', util.inspect(database), 'utf-8');
+    console.log('to-delete this lines');
+    process.exit();
 });

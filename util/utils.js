@@ -15,6 +15,17 @@ module.exports = {
             }
         });
         return _.includes(files, fileName);
+    },
+
+    addClientToDatabase: (database, ip, fileName) => {
+        if (!_.isUndefined(_.get(database, [ip, fileName]))) {
+            database[ip][fileName]++;
+        } else if (_.get(database, ip) && !_.get(database, [ip, fileName])) {
+            database[ip][fileName] = 1;
+        } else {
+            database[ip] = {};
+            database[ip][fileName] = 1;
+        }
     }
 
 };

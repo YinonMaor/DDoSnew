@@ -11,7 +11,7 @@ echo "Initializing the server with pid: $server_pid . Wait:\n"
 # waiting until the server is listening
 until grep -i 'Server is listening on ip ' $server
 do
-  sleep 1
+  sleep 0.1
 done
 
 
@@ -24,7 +24,7 @@ echo "Initializing the CDN with pid: $cdn_pid . Wait:\n"
 # waiting until the CDN is listening
 until grep -i 'CDN Server is running on ip ' $cdn
 do
-  sleep 1
+  sleep 0.1
 done
 
 
