@@ -10,6 +10,7 @@ const _         = require('lodash');
 const fs        = require('fs');
 const IP        = require('ip');
 const http      = require('http');
+const path      = require('path');
 const util      = require('util');
 const utils     = require('../util/utils');
 const cleaner   = require('../util/cleaner');
@@ -65,7 +66,7 @@ const server = http.createServer((req, res) => {
     let fileName = req.url;
     const ip = req.connection.remoteAddress;
     console.log(`${req.method} request for ${fileName}`);
-    console.log(ip);
+    console.log(`From: ${ip}`);
     utils.addClientToDatabase(database, ip, fileName);
     if (fileName === '/' || fileName === 'index.html') {
         fileName = '/index.html';
@@ -96,6 +97,26 @@ const server = http.createServer((req, res) => {
                     }
                     res.writeHead(200, {'Content-Type': 'text/html'});
                     res.end(newData);
+                });
+            } else if (fileName.match(/.jpg$/)) {
+                fs.readFile(path.join(__dirname, fileName), (err, data) => {
+                    if (err) {
+                        res.writeHead(400, {'Content-type':'text/html'});
+                        res.end('A trouble occurred with the file.');
+                    } else {
+                        res.writeHead(200, {'Content-Type': 'image/png'});
+                        res.end(data);
+                    }
+                });
+            } else if (fileName.match(/.png$/)) {
+                fs.readFile(path.join(__dirname, fileName), (err, data) => {
+                    if (err) {
+                        res.writeHead(400, {'Content-type':'text/html'});
+                        res.end('A trouble occurred with the file.');
+                    } else {
+                        res.writeHead(200, {'Content-Type': 'image/png'});
+                        res.end(data);
+                    }
                 });
             } else {
                 fs.readFile(`${__dirname}/${fileName}`, (err, newData) => {

@@ -9,6 +9,7 @@
 const _         = require('lodash');
 const fs        = require('fs');
 const http      = require('http');
+const path      = require('path');
 const utils     = require('../util/utils');
 const cleaner   = require('../util/cleaner');
 const validator = require('../util/validator');
@@ -39,7 +40,7 @@ process.argv.forEach((val, index, array) => {
  */
 const server = http.createServer((req, res) => {
     console.log(`${req.method} request for ${req.url}`);
-    console.log(req.connection.remoteAddress);
+    console.log(`From: ${req.connection.remoteAddress}`);
     let fileName = req.url;
     if (fileName === '/' || fileName === '/index.html') {
         fileName = 'index.html';
@@ -49,18 +50,44 @@ const server = http.createServer((req, res) => {
         if (_.includes(fileName, '.html')) {
             fs.readFile(`${__dirname}/${fileName}`, (err, data) => {
                 if (err) {
-                    throw err;
+                    res.writeHead(400, {'Content-type':'text/html'});
+                    res.end('A trouble occurred with the file.');
+                } else {
+                    res.writeHead(200, {'Content-Type': 'text/html'});
+                    res.end(data);
                 }
-                res.writeHead(200, {'Content-Type': 'text/html'});
-                res.end(data);
             });
         } else {
             fs.readFile(`${__dirname}/${fileName}`, (err, data) => {
                 if (err) {
-                    throw err;
+                    res.writeHead(400, {'Content-type':'text/html'});
+                    res.end('A trouble occurred with the file.');
+                } else {
+                    res.writeHead(200, {'Content-Type': 'text/plain'});
+                    res.end(data);
                 }
-                res.writeHead(200, {'Content-Type': 'text/plain'});
-                res.end(data);
+            });
+        }
+    } else if (utils.isFileExistsInDirectory(path.join(__dirname, 'images'), fileName)) {
+        if (fileName.match(/.jpg$/)) {
+            fs.readFile(path.join(__dirname, 'images', fileName), (err, data) => {
+                if (err) {
+                    res.writeHead(400, {'Content-type':'text/html'});
+                    res.end('A trouble occurred with the file.');
+                } else {
+                    res.writeHead(200, {'Content-Type': 'image/jpeg'});
+                    res.end(data);
+                }
+            });
+        } else if (fileName.match(/.png$/)) {
+            fs.readFile(path.join(__dirname, 'images', fileName), (err, data) => {
+                if (err) {
+                    res.writeHead(400, {'Content-type':'text/html'});
+                    res.end('A trouble occurred with the file.');
+                } else {
+                    res.writeHead(200, {'Content-Type': 'image/png'});
+                    res.end(data);
+                }
             });
         }
     } else {
@@ -71,15 +98,17 @@ const server = http.createServer((req, res) => {
         });
         fs.readFile(`${__dirname}/${fileName}`, (err, data) => {
             if (err) {
-                throw err;
+                res.writeHead(400, {'Content-type':'text/html'});
+                res.end('A trouble occurred with the file.');
+            } else {
+                res.writeHead(200, {'Content-Type': 'text/plain'});
+                res.end(data);
+                fs.unlink(`${__dirname}/${fileName}`, err => {
+                    if (err) {
+                        throw err;
+                    }
+                });
             }
-            res.writeHead(200, {'Content-Type': 'text/plain'});
-            res.end(data);
-            fs.unlink(`${__dirname}/${fileName}`, err => {
-                if (err) {
-                    throw err;
-                }
-            });
         });
 
     }
