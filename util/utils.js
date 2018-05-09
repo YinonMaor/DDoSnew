@@ -3,11 +3,25 @@
  */
 
 'use strict';
-const fs = require('fs');
-const _ = require('lodash');
+const _    = require('lodash');
+const fs   = require('fs');
+const path = require('path');
 
 const timesForFile = 5; // need to be object for each file
 const timeForSameFileRequest = 5000;
+
+function getWholeFilesInDir(dir, fileList) {
+    const files = fs.readdirSync(dir);
+    fileList = fileList || [];
+    files.forEach(file => {
+        if (fs.statSync(path.join(dir, file)).isDirectory()) {
+            fileList = getWholeFilesInDir(path.join(dir, file), fileList);
+        } else {
+            fileList.push(file);
+        }
+    });
+    return fileList;
+}
 
 module.exports = {
 
@@ -45,6 +59,13 @@ module.exports = {
             database[ip][fileName].time = Date.now();
         }
         return true;
-    }
+    },
+
+    getFilesizeInBytes: filePath => {
+        const stats = fs.statSync(filePath);
+        return stats.size;
+    },
+
+    getWholeFilesInDir
 
 };

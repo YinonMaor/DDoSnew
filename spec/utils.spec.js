@@ -1,5 +1,8 @@
 'use strict';
+const _     = require('lodash');
 const fs    = require('fs');
+const path  = require('path');
+const util  = require('util');
 const utils = require('../util/utils');
 
 describe('Utils function tests:', () => {
@@ -17,6 +20,23 @@ describe('Utils function tests:', () => {
             }
         });
         expect(fileExistsInDirectory).toBe(true);
+    });
+
+    it('should return right CDN directory files', () => {
+        let paths = __dirname.split('/');
+        paths.pop();
+        paths = paths.join('/');
+        const getCDNDir = path.join(paths, 'CDN');
+        const originCDNDir = ['CDN.js', 'README.md'];
+        expect(_.isEqual(utils.getWholeFilesInDir(getCDNDir).sort(), originCDNDir.sort())).toBe(true);
+    });
+
+    it('should return right size of traffic.png', () => {
+        let paths = __dirname.split('/');
+        paths.pop();
+        paths = paths.join('/');
+        const image = path.join(paths, 'Server', 'images', 'traffic.png');
+        expect(utils.getFilesizeInBytes(image)).toBe(23412);
     });
 
 });
