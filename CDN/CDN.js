@@ -11,7 +11,6 @@ const fs        = require('fs');
 const IP        = require('ip');
 const http      = require('http');
 const path      = require('path');
-const util      = require('util');
 const utils     = require('../util/utils');
 const cleaner   = require('../util/cleaner');
 const validator = require('../util/validator');
@@ -20,7 +19,8 @@ let PORT          = 4400;
 let serverPort    = 3300;
 let CDN_Address   = '127.0.0.1';
 let serverAddress = IP.address();
-const database      = {};
+const database    = {};
+const blocked     = {};
 
 if (_.includes(process.argv, '--help')) {
     console.log('Usage: node CDN [options]\n');
@@ -59,87 +59,108 @@ process.argv.forEach((val, index, array) => {
     }
 });
 
+setInterval(() => {
+    _.each(blocked, (value, key) => {
+        if (value.degree > 0) {
+            blocked[key].degree--;
+        }
+    });
+}, 180000);
+
 /**
  * Creating the server and defining the specific service for various requests.
  */
 const server = http.createServer((req, res) => {
     let fileName = req.url;
     const ip = req.connection.remoteAddress;
-    console.log(`${req.method} request for ${fileName}`);
-    console.log(`From: ${ip}`);
-    utils.addClientToDatabase(database, ip, fileName);
-    if (fileName === '/' || fileName === 'index.html') {
-        fileName = '/index.html';
+
+    if (_.has(blocked, ip) && blocked[ip].degree > 0) {
+        res.end('');
+    } else if (!utils.addClientToDatabaseAndReturnHisStatus(database, ip, fileName)) {
+        if (!_.get(blocked, ip)) {
+            blocked[ip] = {};
+            blocked[ip].degree = 0;
+            blocked[ip].expIncreament = -1;
+        }
+        blocked[ip].expIncreament++;
+        console.log(`exp: ${blocked[ip].expIncreament}`);
+        blocked[ip].degree = Math.pow(2, blocked[ip].expIncreament);
+    } else {
+        console.log(`${req.method} request for ${fileName}`);
+        console.log(`From: ${ip}`);
+        if (fileName === '/' || fileName === 'index.html') {
+            fileName = '/index.html';
+        }
+        const options = {
+            hostname: serverAddress,
+            port: serverPort,
+            path: fileName,
+            method: 'GET'
+        };
+
+        const request = http.request(options, result => {
+            let responseBody = '';
+            result.on('data', chunk => {
+                responseBody += chunk;
+            });
+            result.on('end', () => {
+                fileName = cleaner.cleanFileName(fileName);
+                fs.writeFileSync(`${__dirname}/${fileName}`, responseBody, err => {
+                    if (err) {
+                        throw err;
+                    }
+                });
+                if (_.includes(fileName, '.html')) {
+                    fs.readFile(`${__dirname}/${fileName}`, (err, newData) => {
+                        if (err) {
+                            throw err;
+                        }
+                        res.writeHead(200, {'Content-Type': 'text/html'});
+                        res.end(newData);
+                    });
+                } else if (fileName.match(/.jpg$/)) {
+                    fs.readFile(path.join(__dirname, fileName), (err, data) => {
+                        if (err) {
+                            res.writeHead(400, {'Content-type':'text/html'});
+                            res.end('A trouble occurred with the file.');
+                        } else {
+                            res.writeHead(200, {'Content-Type': 'image/png'});
+                            res.end(data);
+                        }
+                    });
+                } else if (fileName.match(/.png$/)) {
+                    fs.readFile(path.join(__dirname, fileName), (err, data) => {
+                        if (err) {
+                            res.writeHead(400, {'Content-type':'text/html'});
+                            res.end('A trouble occurred with the file.');
+                        } else {
+                            res.writeHead(200, {'Content-Type': 'image/png'});
+                            res.end(data);
+                        }
+                    });
+                } else {
+                    fs.readFile(`${__dirname}/${fileName}`, (err, newData) => {
+                        if (err) {
+                            throw err;
+                        }
+                        res.writeHead(200, {'Content-Type': 'text/plain'});
+                        res.end(newData);
+                    });
+                }
+                fs.unlink(`${__dirname}/${fileName}`, err => {
+                    if (err) {
+                        throw err;
+                    }
+                });
+            });
+
+        });
+
+        request.on('error', err => {
+            console.log(`problem with request: ${err}`);
+        });
+        request.end();
     }
-    const options = {
-        hostname: serverAddress,
-        port: serverPort,
-        path: fileName,
-        method: 'GET'
-    };
-
-    const request = http.request(options, result => {
-        let responseBody = '';
-        result.on('data', chunk => {
-            responseBody += chunk;
-        });
-        result.on('end', () => {
-            fileName = cleaner.cleanFileName(fileName);
-            fs.writeFileSync(`${__dirname}/${fileName}`, responseBody, err => {
-                if (err) {
-                    throw err;
-                }
-            });
-            if (_.includes(fileName, '.html')) {
-                fs.readFile(`${__dirname}/${fileName}`, (err, newData) => {
-                    if (err) {
-                        throw err;
-                    }
-                    res.writeHead(200, {'Content-Type': 'text/html'});
-                    res.end(newData);
-                });
-            } else if (fileName.match(/.jpg$/)) {
-                fs.readFile(path.join(__dirname, fileName), (err, data) => {
-                    if (err) {
-                        res.writeHead(400, {'Content-type':'text/html'});
-                        res.end('A trouble occurred with the file.');
-                    } else {
-                        res.writeHead(200, {'Content-Type': 'image/png'});
-                        res.end(data);
-                    }
-                });
-            } else if (fileName.match(/.png$/)) {
-                fs.readFile(path.join(__dirname, fileName), (err, data) => {
-                    if (err) {
-                        res.writeHead(400, {'Content-type':'text/html'});
-                        res.end('A trouble occurred with the file.');
-                    } else {
-                        res.writeHead(200, {'Content-Type': 'image/png'});
-                        res.end(data);
-                    }
-                });
-            } else {
-                fs.readFile(`${__dirname}/${fileName}`, (err, newData) => {
-                    if (err) {
-                        throw err;
-                    }
-                    res.writeHead(200, {'Content-Type': 'text/plain'});
-                    res.end(newData);
-                });
-            }
-            fs.unlink(`${__dirname}/${fileName}`, err => {
-                if (err) {
-                    throw err;
-                }
-            });
-        });
-
-    });
-
-    request.on('error', err => {
-        console.log(`problem with request: ${err}`);
-    });
-    request.end();
 });
 
 /**
@@ -152,10 +173,4 @@ require('dns').lookup(require('os').hostname(), (err, add) => {
     CDN_Address = add;
     server.listen(PORT, CDN_Address);
     console.log(`CDN Server is running on ip ${CDN_Address}, port ${PORT}.`);
-});
-
-process.on('SIGINT', () => {
-    fs.writeFileSync('./data.json', util.inspect(database), 'utf-8');
-    console.log('to-delete this lines');
-    process.exit();
 });
