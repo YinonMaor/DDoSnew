@@ -10,6 +10,7 @@ const _         = require('lodash');
 const fs        = require('fs');
 const http      = require('http');
 const path      = require('path');
+const util      = require('util');
 const utils     = require('../util/utils');
 const cleaner   = require('../util/cleaner');
 const validator = require('../util/validator');
@@ -43,6 +44,11 @@ const fileSizes = _.reduce(allFiles, (acc, file) => {
     acc.push(utils.getFilesizeInBytes(path.join(__dirname, file)));
     return acc;
 }, []);
+const sizes = {
+    "min": _.min(fileSizes),
+    "max": _.max(fileSizes)
+};
+fs.writeFileSync(path.join(__dirname, 'sizes.json'), JSON.stringify(sizes), 'utf-8');
 
 /**
  * Creating the server and defining the specific service for various requests.
@@ -133,4 +139,9 @@ require('dns').lookup(require('os').hostname(), (err, add) => {
     address = add;
     server.listen(PORT, address);
     process.stdout.write(`Server is listening on ip ${address}, port ${PORT}.\n`);
+});
+
+process.on('SIGINT', () => {
+    // delete here the created file of file sizes.
+    process.exit();
 });
