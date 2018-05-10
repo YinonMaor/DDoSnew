@@ -35,6 +35,15 @@ process.argv.forEach((val, index, array) => {
     }
 });
 
+let allFiles = utils.getWholeFilesInDir(__dirname);
+allFiles = _.remove(allFiles, element => {
+    return element !== 'README.md' && element !== 'Server.js';
+});
+const fileSizes = _.reduce(allFiles, (acc, file) => {
+    acc.push(utils.getFilesizeInBytes(path.join(__dirname, file)));
+    return acc;
+}, []);
+
 /**
  * Creating the server and defining the specific service for various requests.
  */
@@ -48,7 +57,7 @@ const server = http.createServer((req, res) => {
     fileName = cleaner.cleanFileName(fileName);
     if (utils.isFileExistsInDirectory(__dirname, fileName)) {
         if (_.includes(fileName, '.html')) {
-            fs.readFile(`${__dirname}/${fileName}`, (err, data) => {
+            fs.readFile(path.join(__dirname, fileName), (err, data) => {
                 if (err) {
                     res.writeHead(400, {'Content-type':'text/html'});
                     res.end('A trouble occurred with the file.');

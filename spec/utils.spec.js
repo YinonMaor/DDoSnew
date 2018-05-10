@@ -2,7 +2,6 @@
 const _     = require('lodash');
 const fs    = require('fs');
 const path  = require('path');
-const util  = require('util');
 const utils = require('../util/utils');
 
 describe('Utils function tests:', () => {

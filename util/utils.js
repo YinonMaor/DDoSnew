@@ -62,6 +62,11 @@ module.exports = {
     },
 
     getFilesizeInBytes: filePath => {
+        if ((_.endsWith(filePath, 'png') || _.endsWith(filePath, 'jpg')) && !_.includes(filePath, 'images/')) {
+            const pathByArr = filePath.split('/');
+            const file = pathByArr.pop();
+            filePath = path.join(pathByArr.join('/'), 'images', file);
+        }
         const stats = fs.statSync(filePath);
         return stats.size;
     },
