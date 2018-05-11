@@ -56,11 +56,10 @@ const server = http.createServer((req, res) => {
         fileName = 'index.html';
     }
     fileName = cleaner.cleanFileName(fileName);
-    if (fileName === 'Server.js' || fileName === 'sizes.json') {
+    if (fileName === 'Server.js') {
         res.writeHead(400, {'Content-type':'text/html'});
         res.end('You are not permitted requesting this file.');
-    }
-    if (utils.isFileExistsInDirectory(__dirname, fileName)) {
+    } else if (utils.isFileExistsInDirectory(__dirname, fileName)) {
         if (_.includes(fileName, '.html')) {
             fs.readFile(path.join(__dirname, fileName), (err, data) => {
                 if (err) {

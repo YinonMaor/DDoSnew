@@ -19,6 +19,7 @@ let serverPort    = 3300;
 let CDN_Address   = '127.0.0.1';
 let serverAddress = '127.0.0.1';
 let givenServerIP = false;
+let fileSizes     = {};
 const database    = {};
 const blocked     = {};
 
@@ -89,78 +90,83 @@ const server = http.createServer((req, res) => {
     } else {
         console.log(`${req.method} request for ${fileName}`);
         console.log(`From: ${ip}`);
-        if (fileName === '/' || fileName === 'index.html') {
-            fileName = '/index.html';
+        if (_.includes(fileName, 'CDN.js') || _.includes(fileName, 'Server.js') || _.includes(fileName, 'sizes.json')) {
+            res.writeHead(400, {'Content-type':'text/html'});
+            res.end('You are not permitted requesting this file.');
+        } else {
+            if (fileName === '/' || fileName === 'index.html') {
+                fileName = '/index.html';
+            }
+            const options = {
+                hostname: serverAddress,
+                port: serverPort,
+                path: fileName,
+                method: 'GET'
+            };
+
+            const request = http.request(options, result => {
+                let responseBody = '';
+                result.on('data', chunk => {
+                    responseBody += chunk;
+                });
+                result.on('end', () => {
+                    fileName = cleaner.cleanFileName(fileName);
+                    fs.writeFileSync(`${__dirname}/${fileName}`, responseBody, err => {
+                        if (err) {
+                            throw err;
+                        }
+                    });
+                    if (_.includes(fileName, '.html')) {
+                        fs.readFile(`${__dirname}/${fileName}`, (err, newData) => {
+                            if (err) {
+                                throw err;
+                            }
+                            res.writeHead(200, {'Content-Type': 'text/html'});
+                            res.end(newData);
+                        });
+                    } else if (fileName.match(/.jpg$/)) {
+                        fs.readFile(path.join(__dirname, fileName), (err, data) => {
+                            if (err) {
+                                res.writeHead(400, {'Content-type': 'text/html'});
+                                res.end('A trouble occurred with the file.');
+                            } else {
+                                res.writeHead(200, {'Content-Type': 'image/png'});
+                                res.end(data);
+                            }
+                        });
+                    } else if (fileName.match(/.png$/)) {
+                        fs.readFile(path.join(__dirname, fileName), (err, data) => {
+                            if (err) {
+                                res.writeHead(400, {'Content-type': 'text/html'});
+                                res.end('A trouble occurred with the file.');
+                            } else {
+                                res.writeHead(200, {'Content-Type': 'image/png'});
+                                res.end(data);
+                            }
+                        });
+                    } else {
+                        fs.readFile(path.join(__dirname, fileName), (err, newData) => {
+                            if (err) {
+                                throw err;
+                            }
+                            res.writeHead(200, {'Content-Type': 'text/plain'});
+                            res.end(newData);
+                        });
+                    }
+                    fs.unlink(path.join(__dirname, fileName), err => {
+                        if (err) {
+                            throw err;
+                        }
+                    });
+                });
+
+            });
+
+            request.on('error', err => {
+                console.log(`problem with request: ${err}`);
+            });
+            request.end();
         }
-        const options = {
-            hostname: serverAddress,
-            port: serverPort,
-            path: fileName,
-            method: 'GET'
-        };
-
-        const request = http.request(options, result => {
-            let responseBody = '';
-            result.on('data', chunk => {
-                responseBody += chunk;
-            });
-            result.on('end', () => {
-                fileName = cleaner.cleanFileName(fileName);
-                fs.writeFileSync(`${__dirname}/${fileName}`, responseBody, err => {
-                    if (err) {
-                        throw err;
-                    }
-                });
-                if (_.includes(fileName, '.html')) {
-                    fs.readFile(`${__dirname}/${fileName}`, (err, newData) => {
-                        if (err) {
-                            throw err;
-                        }
-                        res.writeHead(200, {'Content-Type': 'text/html'});
-                        res.end(newData);
-                    });
-                } else if (fileName.match(/.jpg$/)) {
-                    fs.readFile(path.join(__dirname, fileName), (err, data) => {
-                        if (err) {
-                            res.writeHead(400, {'Content-type':'text/html'});
-                            res.end('A trouble occurred with the file.');
-                        } else {
-                            res.writeHead(200, {'Content-Type': 'image/png'});
-                            res.end(data);
-                        }
-                    });
-                } else if (fileName.match(/.png$/)) {
-                    fs.readFile(path.join(__dirname, fileName), (err, data) => {
-                        if (err) {
-                            res.writeHead(400, {'Content-type':'text/html'});
-                            res.end('A trouble occurred with the file.');
-                        } else {
-                            res.writeHead(200, {'Content-Type': 'image/png'});
-                            res.end(data);
-                        }
-                    });
-                } else {
-                    fs.readFile(`${__dirname}/${fileName}`, (err, newData) => {
-                        if (err) {
-                            throw err;
-                        }
-                        res.writeHead(200, {'Content-Type': 'text/plain'});
-                        res.end(newData);
-                    });
-                }
-                fs.unlink(`${__dirname}/${fileName}`, err => {
-                    if (err) {
-                        throw err;
-                    }
-                });
-            });
-
-        });
-
-        request.on('error', err => {
-            console.log(`problem with request: ${err}`);
-        });
-        request.end();
     }
 });
 
@@ -175,6 +181,38 @@ require('dns').lookup(require('os').hostname(), (err, add) => {
     if (!givenServerIP) {
         serverAddress = CDN_Address;
     }
-    server.listen(PORT, CDN_Address);
-    console.log(`CDN Server is running on ip ${CDN_Address}, port ${PORT}.`);
+
+    const options = {
+        hostname: serverAddress,
+        port: serverPort,
+        path: '/sizes.json',
+        method: 'GET'
+    };
+    const req = http.request(options, res => {
+        let responseBody = '';
+        res.on('data', chunk => {
+            responseBody += chunk;
+        });
+        res.on('end', () => {
+            fs.writeFileSync(path.join(__dirname, options.path), responseBody, err => {
+                if (err) {
+                    throw err;
+                }
+            });
+            const text = fs.readFileSync(path.join(__dirname, options.path), 'utf8');
+            fileSizes = JSON.parse(text);
+            console.log(fileSizes); // ------------------------------------ to-delete after using. -------------------------
+            fs.unlink(path.join(__dirname, options.path), err => {
+                if (err) {
+                    throw err;
+                }
+            });
+            server.listen(PORT, CDN_Address);
+            console.log(`CDN Server is running on ip ${CDN_Address}, port ${PORT}.`);
+        });
+    });
+    req.on('error', err => {
+        console.log(`problem with request: ${err}`);
+    });
+    req.end();
 });
