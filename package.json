@@ -9,7 +9,6 @@
     "url": "https://github.com/YinonMaor/DDoSMitigation"
   },
   "dependencies": {
-    "ip": "^1.1.5",
     "lodash": "4.17.4"
   },
   "devDependencies": {

@@ -8,7 +8,6 @@
  */
 const _         = require('lodash');
 const fs        = require('fs');
-const IP        = require('ip');
 const http      = require('http');
 const path      = require('path');
 const utils     = require('../util/utils');
@@ -18,7 +17,7 @@ const validator = require('../util/validator');
 let PORT          = 4400;
 let serverPort    = 3300;
 let CDN_Address   = '127.0.0.1';
-let serverAddress = IP.address(); // this causes a lot of troubles
+let serverAddress = '127.0.0.1';
 let givenServerIP = false;
 const database    = {};
 const blocked     = {};

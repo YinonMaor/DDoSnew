@@ -8,16 +8,22 @@
  */
 const _          = require('lodash');
 const fs         = require('fs');
-const IP         = require('ip');
 const http       = require('http');
 const path       = require('path');
 const validator  = require('../util/validator');
 
 
 let PORT = 3300;
-let ip   = IP.address();
+let ip   = '127.0.0.1';
 let request = '/';
 let dir  = 'files';
+
+require('dns').lookup(require('os').hostname(), (err, add) => {
+    if (err) {
+        throw err;
+    }
+    ip = add;
+});
 
 if (_.includes(process.argv, '--help')) {
     console.log('Usage: node request [options]\n');
@@ -30,10 +36,10 @@ if (_.includes(process.argv, '--help')) {
     process.exit(0);
 }
 
-//if (!_.includes(process.argv, '-t') || !_.includes(process.argv, '-p')) {
-//    console.error('\x1b[31m', '--------ERROR!--------\nClient module missing arguments:\nServer IP and port are mandatory arguments.\nYou can find more information at README.md file.');
-//    process.exit(1);
-//}
+if (!_.includes(process.argv, '-t') || !_.includes(process.argv, '-p')) {
+   console.error('\x1b[31m', '--------ERROR!--------\nClient module missing arguments:\nServer IP and port are mandatory arguments.\nYou can find more information at README.md file.');
+   process.exit(1);
+}
 
 process.argv.forEach((val, index, array) => {
     if (val === '-t' && array[index + 1]) {
