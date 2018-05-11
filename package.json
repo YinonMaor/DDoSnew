@@ -26,6 +26,6 @@
     "build": "webpack -p",
     "jasmine": "jasmine",
     "clean": "rm -rf dist/ && rm -rf Client/test/ && rm -rf Client/files/ && rm -f Server/sizes.json",
-    "ci": "npm run lint && npm run jasmine"
+    "ci": "npm run test"
   }
 }
