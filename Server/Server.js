@@ -10,7 +10,6 @@ const _         = require('lodash');
 const fs        = require('fs');
 const http      = require('http');
 const path      = require('path');
-const util      = require('util');
 const utils     = require('../util/utils');
 const cleaner   = require('../util/cleaner');
 const validator = require('../util/validator');
@@ -36,19 +35,15 @@ process.argv.forEach((val, index, array) => {
     }
 });
 
-let allFiles = utils.getWholeFilesInDir(__dirname);
-allFiles = _.remove(allFiles, element => {
-    return element !== 'README.md' && element !== 'Server.js';
-});
-const fileSizes = _.reduce(allFiles, (acc, file) => {
-    acc.push(utils.getFilesizeInBytes(path.join(__dirname, file)));
-    return acc;
-}, []);
-const sizes = {
-    "min": _.min(fileSizes),
-    "max": _.max(fileSizes)
-};
-fs.writeFileSync(path.join(__dirname, 'sizes.json'), JSON.stringify(sizes), 'utf-8');
+// let allFiles = utils.getWholeFilesInDir(__dirname);
+// allFiles = _.remove(allFiles, element => {
+//     return element !== 'Server.js' && element !== 'sizes.json';
+// });
+// const fileSizes = _.reduce(allFiles, (acc, file) => {
+//     acc[file] = utils.getFilesizeInBytes(path.join(__dirname, file));
+//     return acc;
+// }, {});
+// fs.writeFileSync(path.join(__dirname, 'sizes.json'), JSON.stringify(fileSizes), 'utf-8');
 
 /**
  * Creating the server and defining the specific service for various requests.
@@ -61,6 +56,10 @@ const server = http.createServer((req, res) => {
         fileName = 'index.html';
     }
     fileName = cleaner.cleanFileName(fileName);
+    // if (fileName === 'Server.js' || fileName === 'sizes.json') {
+    //     res.writeHead(400, {'Content-type':'text/html'});
+    //     res.end('You are not permitted requesting this file.');
+    // }
     if (utils.isFileExistsInDirectory(__dirname, fileName)) {
         if (_.includes(fileName, '.html')) {
             fs.readFile(path.join(__dirname, fileName), (err, data) => {
@@ -106,19 +105,19 @@ const server = http.createServer((req, res) => {
             });
         }
     } else {
-        fs.writeFileSync(`${__dirname}/${fileName}`, 'File Not Found. Please check your request.\n', err => {
+        fs.writeFileSync(path.join(__dirname, fileName), 'File Not Found. Please check your request.\n', err => {
             if (err) {
                 throw err;
             }
         });
-        fs.readFile(`${__dirname}/${fileName}`, (err, data) => {
+        fs.readFile(path.join(__dirname, fileName), (err, data) => {
             if (err) {
                 res.writeHead(400, {'Content-type':'text/html'});
                 res.end('A trouble occurred with the file.');
             } else {
                 res.writeHead(200, {'Content-Type': 'text/plain'});
                 res.end(data);
-                fs.unlink(`${__dirname}/${fileName}`, err => {
+                fs.unlink(path.join(__dirname, fileName), err => {
                     if (err) {
                         throw err;
                     }
@@ -142,6 +141,10 @@ require('dns').lookup(require('os').hostname(), (err, add) => {
 });
 
 process.on('SIGINT', () => {
-    // delete here the created file of file sizes.
+    fs.unlink(path.join(__dirname, 'sizes.json'), err => {
+        if (err) {
+            throw err;
+        }
+    });
     process.exit();
 });

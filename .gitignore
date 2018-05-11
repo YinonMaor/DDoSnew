@@ -1,14 +1,14 @@
-### Operating systems ###
+### Operating systems: ###
 .DS_Store
 
 
-### Regular dev ###
+### Regular dev: ###
 .idea
 node_modules/
 yarn.lock
 
 
-### Auto-generated files while build ###
+### Auto-generated files while build: ###
 dist/
 
 
@@ -16,13 +16,15 @@ dist/
 Client/files/
 
 
-### Test's generated files ###
+### Test's generated files: ###
 Client/test/
 
 
+### Server files: ###
+Server/sizes.json
 
 
 
 
-#to delete::
+#to delete before present::
 CDN/data.json

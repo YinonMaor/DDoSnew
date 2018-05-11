@@ -3,7 +3,7 @@ const cp    = require('child_process');
 const IP    = require('ip');
 const utils = require('../util/utils');
 
-xdescribe('Integration tests:', () => {// eslint-disable-line jasmine/no-disabled-tests
+describe('Integration tests:', () => {// eslint-disable-line jasmine/no-disabled-tests
 
     describe('Client and Server connectivity:', () => {
 
@@ -13,9 +13,8 @@ xdescribe('Integration tests:', () => {// eslint-disable-line jasmine/no-disable
             basePath = basePath.join('/');
 
             const clientPath = basePath + '/Client';
-
+            console.log(1)
             cp.execSync(`node ${clientPath}/request -t ${IP.address()} -p 3300 -f test/ -ht traffic.png`);
-
             const dirPath = `${clientPath}/test`;
             expect(utils.isFileExistsInDirectory(dirPath, 'traffic.png')).toBe(true);
         });
