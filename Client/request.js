@@ -10,12 +10,13 @@ const _          = require('lodash');
 const fs         = require('fs');
 const IP         = require('ip');
 const http       = require('http');
+const path       = require('path');
 const validator  = require('../util/validator');
 
 
 let PORT = 3300;
 let ip   = IP.address();
-let path = '/';
+let request = '/';
 let dir  = 'files';
 
 if (_.includes(process.argv, '--help')) {
@@ -48,7 +49,7 @@ process.argv.forEach((val, index, array) => {
         }
         PORT = parseInt(array[index + 1]) || PORT;
     } else if (val === '-ht' && array[index + 1]) {
-        path = array[index + 1] || path;
+        request = array[index + 1] || request;
     } else if (val === '-f' && array[index + 1]) {
         dir = array[index + 1] || dir;
         dir = _.replace(dir, /\//ig, '');
@@ -56,17 +57,17 @@ process.argv.forEach((val, index, array) => {
 });
 const amount = 1; // expand for real DoS
 
-if (path === '/') {
-    path = 'index.html';
+if (request === '/') {
+    request = 'index.html';
 }
-if (!path.startsWith('/')) {
-    path = '/'.concat(path);
+if (!request.startsWith('/')) {
+    request = '/'.concat(request);
 }
 
 const options = {
     hostname: ip,
     port: PORT,
-    path: path,
+    path: request,
     method: 'GET'
 };
 
@@ -77,10 +78,10 @@ for (let i = 0; i < amount; i++) {
             responseBody += chunk;
         });
         res.on('end', () => {
-            if (!fs.existsSync(`${__dirname}/${dir}`)){
-                fs.mkdirSync(`${__dirname}/${dir}`);
+            if (!fs.existsSync(path.join(__dirname, dir))){
+                fs.mkdirSync(path.join(__dirname, dir));
             }
-            fs.writeFile(`${__dirname}/${dir}/${path}`, responseBody, err => {
+            fs.writeFile(path.join(__dirname, dir, request), responseBody, err => {
                 if (err) {
                     throw err;
                 }
