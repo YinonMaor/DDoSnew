@@ -18,7 +18,8 @@ const validator = require('../util/validator');
 let PORT          = 4400;
 let serverPort    = 3300;
 let CDN_Address   = '127.0.0.1';
-let serverAddress = IP.address();
+let serverAddress = IP.address(); // this causes a lot of troubles
+let givenServerIP = false;
 const database    = {};
 const blocked     = {};
 
@@ -49,6 +50,7 @@ process.argv.forEach((val, index, array) => {
             console.error('\x1b[31m', '--------ERROR!--------\nServer failed to load:\nInvalid given server\'s IP.');
             process.exit(2);
         }
+        givenServerIP = true;
         serverAddress = array[index + 1] || serverAddress;
     } else if (val === '--serverPort' && array[index + 1]) {
         if (!validator.isValidPort(array[index + 1])) {
@@ -171,6 +173,9 @@ require('dns').lookup(require('os').hostname(), (err, add) => {
         throw err;
     }
     CDN_Address = add;
+    if (!givenServerIP) {
+        serverAddress = CDN_Address;
+    }
     server.listen(PORT, CDN_Address);
     console.log(`CDN Server is running on ip ${CDN_Address}, port ${PORT}.`);
 });

@@ -29,21 +29,21 @@ process.argv.forEach((val, index, array) => {
     if (val === '--port' && array[index + 1]) {
         if (!validator.isValidPort(array[index + 1])) {
             console.error('\x1b[31m', '--------ERROR!--------\nServer failed to load:\nInvalid given port.');
-            process.exit(2);
+            process.exit(1);
         }
         PORT = parseInt(array[index + 1]) || PORT;
     }
 });
 
-// let allFiles = utils.getWholeFilesInDir(__dirname);
-// allFiles = _.remove(allFiles, element => {
-//     return element !== 'Server.js' && element !== 'sizes.json';
-// });
-// const fileSizes = _.reduce(allFiles, (acc, file) => {
-//     acc[file] = utils.getFilesizeInBytes(path.join(__dirname, file));
-//     return acc;
-// }, {});
-// fs.writeFileSync(path.join(__dirname, 'sizes.json'), JSON.stringify(fileSizes), 'utf-8');
+let allFiles = utils.getWholeFilesInDir(__dirname);
+allFiles = _.remove(allFiles, element => {
+    return element !== 'Server.js' && element !== 'sizes.json';
+});
+const fileSizes = _.reduce(allFiles, (acc, file) => {
+    acc[file] = utils.getFilesizeInBytes(path.join(__dirname, file));
+    return acc;
+}, {});
+fs.writeFileSync(path.join(__dirname, 'sizes.json'), JSON.stringify(fileSizes), 'utf-8');
 
 /**
  * Creating the server and defining the specific service for various requests.
@@ -56,10 +56,10 @@ const server = http.createServer((req, res) => {
         fileName = 'index.html';
     }
     fileName = cleaner.cleanFileName(fileName);
-    // if (fileName === 'Server.js' || fileName === 'sizes.json') {
-    //     res.writeHead(400, {'Content-type':'text/html'});
-    //     res.end('You are not permitted requesting this file.');
-    // }
+    if (fileName === 'Server.js' || fileName === 'sizes.json') {
+        res.writeHead(400, {'Content-type':'text/html'});
+        res.end('You are not permitted requesting this file.');
+    }
     if (utils.isFileExistsInDirectory(__dirname, fileName)) {
         if (_.includes(fileName, '.html')) {
             fs.readFile(path.join(__dirname, fileName), (err, data) => {
@@ -146,5 +146,5 @@ process.on('SIGINT', () => {
             throw err;
         }
     });
-    process.exit();
+    process.exit(2);
 });
