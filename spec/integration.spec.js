@@ -12,7 +12,7 @@ require('dns').lookup(require('os').hostname(), (err, add) => {
     ip = add;
 });
 
-describe('Integration tests:', () => {// eslint-disable-line jasmine/no-disabled-tests
+xdescribe('Integration tests:', () => {// eslint-disable-line jasmine/no-disabled-tests
 
     describe('Client and Server connectivity:', () => {
 
