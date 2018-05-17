@@ -35,7 +35,7 @@ You might also use the following flags:
 ```
 ## Troubleshooting:
 In case that you've got the following error:
-```js
+```
 events.js:
       throw er; // Unhandled 'error' event
       ^
