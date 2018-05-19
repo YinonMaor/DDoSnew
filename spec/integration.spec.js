@@ -24,6 +24,7 @@ xdescribe('Integration tests:', () => {// eslint-disable-line jasmine/no-disable
             const clientPath = path.join(basePath, 'Client');
             const execFile = path.join(clientPath, 'request');
             cp.execSync(`node ${execFile} -t ${ip} -p 3300 -f test/ -ht traffic.png`);
+
             const dirPath = path.join(clientPath, 'test');
             expect(utils.isFileExistsInDirectory(dirPath, 'traffic.png')).toBe(true);
         });
