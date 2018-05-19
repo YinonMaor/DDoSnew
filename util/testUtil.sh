@@ -35,7 +35,7 @@ code=$?
 
 # finished running tests, time to kill the server
 kill -9 $server_pid
-echo "Server killed"
+echo "\nServer killed"
 kill -9 $cdn_pid
 echo "CDN killed"
 

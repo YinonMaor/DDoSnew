@@ -153,11 +153,13 @@ const server = http.createServer((req, res) => {
                             res.end(newData);
                         });
                     }
-                    fs.unlink(path.join(__dirname, fileName), err => {
-                        if (err) {
-                            throw err;
-                        }
-                    });
+                    if (fileName !== 'CDN.js' && fileName !== 'README.md') {
+                        fs.unlink(path.join(__dirname, fileName), err => {
+                            if (err) {
+                                throw err;
+                            }
+                        });
+                    }
                 });
 
             });
