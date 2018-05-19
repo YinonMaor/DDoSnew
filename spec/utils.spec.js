@@ -38,4 +38,46 @@ describe('Utils function tests:', () => {
         expect(utils.getFilesizeInBytes(image)).toBe(23412);
     });
 
+    it('should return true for non-attacker client', () => {
+        const IP = '1.1.1.1';
+        const database = {
+            [IP]: {
+                'index.html': {
+                    count: 1,
+                    time: Date.now()
+                }
+            }
+        };
+        expect(utils.addClientToDatabaseAndReturnHisStatus(database, IP, 'index.html')).toBe(true);
+    });
+
+    it('should return true for non-attacker client', () => {
+        const IP = '1.1.1.1';
+        const database = {
+            [IP]: {
+                'index.html': {
+                    count: 1,
+                    time: Date.now()
+                },
+                'traffic.png': {
+                    count: 2,
+                    time: Date.now()
+                }
+            }
+        };
+        expect(utils.addClientToDatabaseAndReturnHisStatus(database, IP, 'index.html')).toBe(true);
+    });
+
+    it('should return false for non-attacker client', () => {
+        const IP = '1.1.1.1';
+        const database = {
+            [IP]: {
+                'index.html': {
+                    count: 6,
+                    time: Date.now()
+                }
+            }
+        };
+        expect(utils.addClientToDatabaseAndReturnHisStatus(database, IP, 'index.html')).toBe(false);
+    });
 });
