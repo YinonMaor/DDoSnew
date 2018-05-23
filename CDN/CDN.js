@@ -87,6 +87,7 @@ const server = http.createServer((req, res) => {
         blocked[ip].expIncreament++;
         console.log(`exp: ${blocked[ip].expIncreament}`);
         blocked[ip].degree = Math.pow(2, blocked[ip].expIncreament);
+        res.end('');
     } else {
         console.log(`${req.method} request for ${fileName}`);
         console.log(`From: ${ip}`);

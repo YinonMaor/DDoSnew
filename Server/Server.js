@@ -10,6 +10,7 @@ const _         = require('lodash');
 const fs        = require('fs');
 const http      = require('http');
 const path      = require('path');
+const util      = require('util');
 const utils     = require('../util/utils');
 const cleaner   = require('../util/cleaner');
 const validator = require('../util/validator');
@@ -17,6 +18,15 @@ const validator = require('../util/validator');
 
 let PORT    = 3300;
 let address = '127.0.0.1';
+const interactions = [];
+const currentInteraction = {count: 0};
+
+setInterval(() => {
+    currentInteraction.time = utils.getDateTime();
+    console.log(currentInteraction);
+    interactions.push(_.cloneDeep(currentInteraction));
+    currentInteraction.count = 0;
+}, 5000);
 
 if (_.includes(process.argv, '--help')) {
     console.log('Usage: node CDN [options]\n');
@@ -49,6 +59,8 @@ fs.writeFileSync(path.join(__dirname, 'sizes.json'), JSON.stringify(fileSizes), 
  * Creating the server and defining the specific service for various requests.
  */
 const server = http.createServer((req, res) => {
+    currentInteraction.count++;
+    console.log(currentInteraction);
     console.log(`${req.method} request for ${req.url}`);
     console.log(`From: ${req.connection.remoteAddress}`);
     let fileName = req.url;
@@ -140,6 +152,7 @@ require('dns').lookup(require('os').hostname(), (err, add) => {
 });
 
 process.on('SIGINT', () => {
+    fs.writeFileSync(path.join(__dirname, 'interactions.json'), util.inspect(interactions) , 'utf-8');
     fs.unlink(path.join(__dirname, 'sizes.json'), err => {
         if (err) {
             throw err;
