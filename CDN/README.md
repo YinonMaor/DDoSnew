@@ -27,6 +27,7 @@ You might also use the following flags:
         --port                define argument of listened port of the CDN.
         --server              define argument of IP of the original server.
         --serverPort          define argument of listened port of the original server.
+        --no-protect          Disable CDN mitigation.
         
       Args:
         <port>                Port of the CDN server.
