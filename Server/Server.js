@@ -134,13 +134,16 @@ const server = http.createServer((req, res) => {
  * Defining the server's listener
  */
 require('dns').lookup(require('os').hostname(), (err, add) => {
+    if (err) {
+        console.log(err);
+    }
     address = add;
     server.listen(PORT, address);
     process.stdout.write(`Server is listening on ip ${address}, port ${PORT}.\n`);
 });
 
 process.on('SIGINT', () => {
-    fs.writeFileSync(path.join(__dirname, 'interactions.json'), util.inspect(interactions) , 'utf-8');
+    fs.writeFileSync(path.join(__dirname, 'interactions.json'), util.inspect(interactions), 'utf-8');
     fs.unlink(path.join(__dirname, 'sizes.json'));
     process.exit(2);
 });

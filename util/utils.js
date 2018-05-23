@@ -26,11 +26,7 @@ function getWholeFilesInDir(dir, fileList) {
 module.exports = {
 
     isFileExistsInDirectory: (dirPath, fileName) => {
-        const files = fs.readdirSync(dirPath, err => {
-            if (err) {
-                throw err;
-            }
-        });
+        const files = fs.readdirSync(dirPath);
         return _.includes(files, fileName);
     },
 

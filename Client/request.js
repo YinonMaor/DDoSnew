@@ -20,7 +20,7 @@ let dir  = 'files';
 
 require('dns').lookup(require('os').hostname(), (err, add) => {
     if (err) {
-        throw err;
+        console.log(err);
     }
     ip = add;
 });
@@ -89,7 +89,7 @@ for (let i = 0; i < amount; i++) {
             }
             fs.writeFile(path.join(__dirname, dir, request), responseBody, err => {
                 if (err) {
-                    throw err;
+                    console.log(err);
                 }
             });
         });

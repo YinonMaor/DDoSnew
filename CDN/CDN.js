@@ -121,13 +121,13 @@ const server = http.createServer((req, res) => {
                     fileName = cleaner.cleanFileName(fileName);
                     fs.writeFileSync(`${__dirname}/${fileName}`, responseBody, err => {
                         if (err) {
-                            throw err;
+                            console.log(err);
                         }
                     });
                     if (_.includes(fileName, '.html')) {
                         fs.readFile(`${__dirname}/${fileName}`, (err, newData) => {
                             if (err) {
-                                throw err;
+                                console.log(err);
                             }
                             res.writeHead(200, {'Content-Type': 'text/html'});
                             res.end(newData);
@@ -155,7 +155,7 @@ const server = http.createServer((req, res) => {
                     } else {
                         fs.readFile(path.join(__dirname, fileName), (err, newData) => {
                             if (err) {
-                                throw err;
+                                console.log(err);
                             }
                             res.writeHead(200, {'Content-Type': 'text/plain'});
                             res.end(newData);
@@ -164,7 +164,7 @@ const server = http.createServer((req, res) => {
                     if (fileName !== 'CDN.js' && fileName !== 'README.md') {
                         fs.unlink(path.join(__dirname, fileName), err => {
                             if (err) {
-                                throw err;
+                                console.log(err);
                             }
                         });
                     }
@@ -185,7 +185,7 @@ const server = http.createServer((req, res) => {
  */
 require('dns').lookup(require('os').hostname(), (err, add) => {
     if (err) {
-        throw err;
+        console.log(err);
     }
     CDN_Address = add;
     if (!givenServerIP) {
@@ -204,17 +204,13 @@ require('dns').lookup(require('os').hostname(), (err, add) => {
             responseBody += chunk;
         });
         res.on('end', () => {
-            fs.writeFileSync(path.join(__dirname, options.path), responseBody, err => {
-                if (err) {
-                    throw err;
-                }
-            });
+            fs.writeFileSync(path.join(__dirname, options.path), responseBody);
             const text = fs.readFileSync(path.join(__dirname, options.path), 'utf8');
             fileSizes = JSON.parse(text);
             console.log(fileSizes); // ------------------------------------ to-delete after using. -------------------------
             fs.unlink(path.join(__dirname, options.path), err => {
                 if (err) {
-                    throw err;
+                    console.log(err);
                 }
             });
             server.listen(PORT, CDN_Address);
