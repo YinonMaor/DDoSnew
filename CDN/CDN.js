@@ -19,6 +19,7 @@ let serverPort    = 3300;
 let CDN_Address   = '127.0.0.1';
 let serverAddress = '127.0.0.1';
 let givenServerIP = false;
+let protectMode   = true;
 let fileSizes     = {};
 const database    = {};
 const blocked     = {};
@@ -30,6 +31,7 @@ if (_.includes(process.argv, '--help')) {
     console.log('  --port                     Define CDN server\'s port argument (4400 by default)');
     console.log('  --server         ', '\x1b[31m', 'M', '\x1b[0m', '     Define original server\'s IP argument');
     console.log('  --serverPort     ', '\x1b[31m', 'M', '\x1b[0m', '     Define original server\'s Port argument');
+    console.log('  --no-protect     ', '\x1b[31m', 'M', '\x1b[0m', '     Disable CDN mitigation');
     process.exit(0);
 }
 
@@ -58,16 +60,21 @@ process.argv.forEach((val, index, array) => {
             process.exit(2);
         }
         serverPort = parseInt(array[index + 1]) || serverPort;
+    } else if (val === '--no-protect') {
+        protectMode = false;
     }
 });
 
-setInterval(() => {
-    _.each(blocked, (value, key) => {
-        if (value.degree > 0) {
-            blocked[key].degree--;
-        }
-    });
-}, 180000);
+if (protectMode) {
+    setInterval(() => {
+        _.each(blocked, (value, key) => {
+            if (value.degree > 0) {
+                blocked[key].degree--;
+            }
+        });
+    }, 180000);
+}
+
 
 /**
  * Creating the server and defining the specific service for various requests.
@@ -76,9 +83,9 @@ const server = http.createServer((req, res) => {
     let fileName = req.url;
     const ip = req.connection.remoteAddress;
 
-    if (_.has(blocked, ip) && blocked[ip].degree > 0) {
+    if (protectMode && _.has(blocked, ip) && blocked[ip].degree > 0) {
         res.end('');
-    } else if (!utils.addClientToDatabaseAndReturnHisStatus(database, ip, fileName)) {
+    } else if (protectMode && !utils.addClientToDatabaseAndReturnHisStatus(database, ip, fileName)) {
         if (!_.get(blocked, ip)) {
             blocked[ip] = {};
             blocked[ip].degree = 0;
@@ -211,7 +218,7 @@ require('dns').lookup(require('os').hostname(), (err, add) => {
                 }
             });
             server.listen(PORT, CDN_Address);
-            console.log(`CDN Server is running on ip ${CDN_Address}, port ${PORT}.`);
+            console.log(`CDN Server is running on ip ${CDN_Address}, port ${PORT}${protectMode ? ', Mitigation mode' : ''}.`);
         });
     });
     req.on('error', err => {

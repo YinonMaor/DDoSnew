@@ -60,7 +60,6 @@ fs.writeFileSync(path.join(__dirname, 'sizes.json'), JSON.stringify(fileSizes), 
  */
 const server = http.createServer((req, res) => {
     currentInteraction.count++;
-    console.log(currentInteraction);
     console.log(`${req.method} request for ${req.url}`);
     console.log(`From: ${req.connection.remoteAddress}`);
     let fileName = req.url;
