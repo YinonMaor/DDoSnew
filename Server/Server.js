@@ -115,11 +115,7 @@ const server = http.createServer((req, res) => {
             });
         }
     } else {
-        fs.writeFileSync(path.join(__dirname, fileName), 'File Not Found. Please check your request.\n', err => {
-            if (err) {
-                throw err;
-            }
-        });
+        fs.writeFileSync(path.join(__dirname, fileName), 'File Not Found. Please check your request.\n');
         fs.readFile(path.join(__dirname, fileName), (err, data) => {
             if (err) {
                 res.writeHead(400, {'Content-type':'text/html'});
@@ -127,11 +123,7 @@ const server = http.createServer((req, res) => {
             } else {
                 res.writeHead(200, {'Content-Type': 'text/plain'});
                 res.end(data);
-                fs.unlink(path.join(__dirname, fileName), err => {
-                    if (err) {
-                        throw err;
-                    }
-                });
+                fs.unlink(path.join(__dirname, fileName));
             }
         });
 
@@ -142,9 +134,6 @@ const server = http.createServer((req, res) => {
  * Defining the server's listener
  */
 require('dns').lookup(require('os').hostname(), (err, add) => {
-    if (err) {
-        throw err;
-    }
     address = add;
     server.listen(PORT, address);
     process.stdout.write(`Server is listening on ip ${address}, port ${PORT}.\n`);
@@ -152,10 +141,6 @@ require('dns').lookup(require('os').hostname(), (err, add) => {
 
 process.on('SIGINT', () => {
     fs.writeFileSync(path.join(__dirname, 'interactions.json'), util.inspect(interactions) , 'utf-8');
-    fs.unlink(path.join(__dirname, 'sizes.json'), err => {
-        if (err) {
-            throw err;
-        }
-    });
+    fs.unlink(path.join(__dirname, 'sizes.json'));
     process.exit(2);
 });
