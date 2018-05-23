@@ -25,7 +25,7 @@
     "fix": "./node_modules/.bin/eslint . --fix",
     "build": "webpack -p",
     "jasmine": "jasmine",
-    "clean": "rm -rf dist/ && rm -rf Client/test/ && rm -rf Client/files/ && rm -f Server/sizes.json",
+    "clean": "rm -rf dist/ && rm -rf Client/test/ && rm -rf Client/files/ && rm -f Server/sizes.json && rm -f Server/interactions.json",
     "ci": "npm run lint && npm run jasmine"
   }
 }
