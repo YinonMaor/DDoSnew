@@ -19,7 +19,7 @@ const validator = require('../util/validator');
 let PORT    = 3300;
 let address = '127.0.0.1';
 const interactions = [];
-const currentInteraction = {count: 0};
+const currentInteraction = {time: 0, count: 0};
 
 setInterval(() => {
     currentInteraction.time = utils.getDateTime();
