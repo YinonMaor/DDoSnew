@@ -26,7 +26,7 @@ setInterval(() => {
     console.log(currentInteraction);
     interactions.push(_.cloneDeep(currentInteraction));
     currentInteraction.count = 0;
-}, 5000);
+}, 3000);
 
 if (_.includes(process.argv, '--help')) {
     console.log('Usage: node CDN [options]\n');

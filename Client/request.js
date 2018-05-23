@@ -17,6 +17,7 @@ let PORT = 3300;
 let ip   = '127.0.0.1';
 let request = '/';
 let dir  = 'files';
+let amount = 1; // expand for real DoS
 
 require('dns').lookup(require('os').hostname(), (err, add) => {
     if (err) {
@@ -33,6 +34,7 @@ if (_.includes(process.argv, '--help')) {
     console.log('  -p        ', '\x1b[31m', 'M', '\x1b[0m', '      Define server\'s port argument');
     console.log('  -f                   Define path of saving files argument (\'./\' by default)');
     console.log('  -ht                  Define requested path argument (\'/\' by default)');
+    console.log('  --flood              Define flood mode');
     process.exit(0);
 }
 
@@ -59,9 +61,10 @@ process.argv.forEach((val, index, array) => {
     } else if (val === '-f' && array[index + 1]) {
         dir = array[index + 1] || dir;
         dir = _.replace(dir, /\//ig, '');
+    } else if (val === '--flood') {
+        amount = 1000;
     }
 });
-const amount = 1; // expand for real DoS
 
 if (request === '/') {
     request = 'index.html';
