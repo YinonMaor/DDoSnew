@@ -72,7 +72,7 @@ if (protectMode) {
                 blocked[key].degree--;
             }
         });
-    }, 180000);
+    }, 15000);
 }
 
 
@@ -84,7 +84,8 @@ const server = http.createServer((req, res) => {
     const ip = req.connection.remoteAddress;
 
     if (protectMode && _.has(blocked, ip) && blocked[ip].degree > 0) {
-        res.end('');
+        console.log('Requested client blocked.');
+        res.end();
     } else if (protectMode && !utils.addClientToDatabaseAndReturnHisStatus(database, ip, fileName)) {
         if (!_.get(blocked, ip)) {
             blocked[ip] = {};
@@ -94,7 +95,7 @@ const server = http.createServer((req, res) => {
         blocked[ip].expIncreament++;
         console.log(`exp: ${blocked[ip].expIncreament}`);
         blocked[ip].degree = Math.pow(2, blocked[ip].expIncreament);
-        res.end('');
+        res.end();
     } else {
         console.log(`${req.method} request for ${fileName}`);
         console.log(`From: ${ip}`);
