@@ -29,6 +29,10 @@ describe('IP Validator tests:', () => {
             expect(validator.isValidIp('8.8.8.8')).toBe(true);
         });
 
+        it('should be valid ip - 7', () => {
+            expect(validator.isValidIp('0.0.0.0')).toBe(true);
+        });
+
     });
 
     describe('IP should be not valid:', () => {
@@ -55,6 +59,46 @@ describe('IP Validator tests:', () => {
 
         it('should be valid ip - 6', () => {
             expect(validator.isValidIp('8.8')).toBe(false);
+        });
+
+        it('should be valid ip - 7', () => {
+            expect(validator.isValidIp('')).toBe(false);
+        });
+
+        it('should be valid ip - 8', () => {
+            expect(validator.isValidIp('5000')).toBe(false);
+        });
+
+        it('should be valid ip - 9', () => {
+            expect(validator.isValidIp('-1')).toBe(false);
+        });
+
+        it('should be valid ip - 10', () => {
+            expect(validator.isValidIp(false)).toBe(false);
+        });
+
+        it('should be valid ip - 11', () => {
+            expect(validator.isValidIp(null)).toBe(false);
+        });
+
+        it('should be valid ip - 12', () => {
+            expect(validator.isValidIp(undefined)).toBe(false);
+        });
+
+        it('should be valid ip - 13', () => {
+            expect(validator.isValidIp({})).toBe(false);
+        });
+
+        it('should be valid ip - 14', () => {
+            expect(validator.isValidIp([])).toBe(false);
+        });
+
+        it('should be valid ip - 15', () => {
+            expect(validator.isValidIp(['8.8.8.8'])).toBe(false);
+        });
+
+        it('should be valid ip - 16', () => {
+            expect(validator.isValidIp({ip: '8.8.8.8'})).toBe(false);
         });
 
     });

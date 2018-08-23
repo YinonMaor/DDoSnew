@@ -1,4 +1,5 @@
 'use strict';
+const _     = require('lodash');
 const validator = require('../util/validator');
 
 describe('IP Validator tests:', () => {
@@ -43,6 +44,46 @@ describe('IP Validator tests:', () => {
 
         it('should be invalid port - 5', () => {
             expect(validator.isValidPort('0')).toBe(false);
+        });
+
+        it('should be invalid port - 6', () => {
+            expect(validator.isValidPort([])).toBe(false);
+        });
+
+        it('should be invalid port - 7', () => {
+            expect(validator.isValidPort({})).toBe(false);
+        });
+
+        it('should be invalid port - 8', () => {
+            expect(validator.isValidPort()).toBe(false);
+        });
+
+        it('should be invalid port - 9', () => {
+            expect(validator.isValidPort({port: '2200'})).toBe(false);
+        });
+
+        it('should be invalid port - 10', () => {
+            expect(validator.isValidPort(null)).toBe(false);
+        });
+
+        it('should be invalid port - 11', () => {
+            expect(validator.isValidPort(undefined)).toBe(false);
+        });
+
+        it('should be invalid port - 12', () => {
+            expect(validator.isValidPort(false)).toBe(false);
+        });
+
+        it('should be invalid port - 13', () => {
+            expect(validator.isValidPort(true)).toBe(false);
+        });
+
+        it('should be invalid port - 14', () => {
+            expect(validator.isValidPort(5)).toBe(false);
+        });
+
+        it('should be invalid port - 15', () => {
+            expect(validator.isValidPort(_.noop)).toBe(false);
         });
 
     });
