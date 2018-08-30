@@ -21,8 +21,8 @@ let serverAddress = '127.0.0.1';
 let givenServerIP = false;
 let protectMode   = true;
 let fileSizes     = {};
-const database    = {};
-const blocked     = {};
+let database    = {};
+let blocked     = {};
 
 if (_.includes(process.argv, '--help')) {
     console.log('Usage: node CDN [options]\n');
@@ -73,6 +73,11 @@ if (protectMode) {
             }
         });
     }, 15000);
+
+    setInterval(() => {
+        blocked = {};
+        database = {};
+    }, 180000);
 }
 
 
