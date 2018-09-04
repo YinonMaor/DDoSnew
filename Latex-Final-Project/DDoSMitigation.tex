@@ -322,14 +322,14 @@ Beyond our project, there is a whole world of \gls{DoS} and \gls{DDoS} attacks. 
 	\State Let biggestFile be the smallest file in the serverr
 	\State Let biggestCount be his number of approved requests for it.
             \If {$ file == biggestFile$}
-                 \State \Return return biggestFile
+                 \State \Return return biggestCount
             \ElsIf {$ file == smallestFile$}
-                \State \Return return smallestFile
+                \State \Return return smallestCount
             \Else
-              	\State Let y be the ratio between the files: $y=\dfrac{file-small}{big - small} $
+              	\State Let y be the ratio between the files: $Y=\dfrac{file-smallestFile}{biggestFile - smallestFile} $
 	 	\State Let expectedCount be number of ratio between them:
-  		\State $ansRequest=smallRequest-  \dfrac{(smallRequest-bigRequest)*Y}{100}$
-		\State $expectedCount = round( expectedCount )$
+  		\State $requestCount=smallestCount-  {(smallestCount-biggestCount)*Y}$
+		\State $expectedCount = round( requestCount )$
 	  	\State \Return expectedCount
             \EndIf
        \EndFunction
